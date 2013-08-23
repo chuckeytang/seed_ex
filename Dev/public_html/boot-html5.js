@@ -15,14 +15,13 @@
            
            'Logic/Param.js',
            'Logic/Card.js',
-           'Logic/Map.js',
            'Logic/Prop.js',
+           'Logic/Map.js',
            'Logic/Player.js',
            'UICom/UIBase/UIDefine.js',
+           'UICom/UIBase/Utils.js',
            'UICom/UIBase/js_plus.js',
            'UICom/UIBase/jsb_plus.js',
-           'UICom/UIBase/ScrollView.js',
-           'UICom/UIBase/Utils.js',
            'UICom/Widgets.js',
            
            'GameCCB/W_MainLayer.js',

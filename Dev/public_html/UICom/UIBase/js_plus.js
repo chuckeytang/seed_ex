@@ -18,6 +18,14 @@ var IsNull = function (value) {
     return !NotNull(value);
 };
 
+var MakeObject = function(cls, args) {  
+    function _cls(){};
+    _cls.prototype = cls.prototype;
+    var obj = new _cls();
+    //cls.apply(obj, args);
+    return obj; 
+};
+
 Array.prototype.clone = function () {
     return this.concat();
     //return this.slice(0);

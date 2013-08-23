@@ -53,7 +53,7 @@ var Player = cc.Class.extend({
             var propNames = str.split('|');
             for(var i=0; i<propNames.length; i++) {
                 var num = db.getStringForKey('player_'+propNames[i]);
-                this.propPackage.push([propNames[i], new Pp[propNames[i]](), num]);
+                this.propPackage.push([propNames[i], MakeObject('Pp.'+propNames[i]), num]);
             }
         }
         

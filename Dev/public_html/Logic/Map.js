@@ -11,45 +11,14 @@ var AreaMap = Map.extend({
 });
 
 var LevelNode = cc.Class.extend({
-    hunliLevel: 0,
     confData: null,
     leftNode: null,
     rightNode: null,
     topNode: null,
     bottomNode: null,
-    monsterList: null,
     
     ctor: function(zone, level) {
         this.confData = conf.Param.mapConf.getLevelInfo(zone, level);
-    }
-    ,
-    enterLevel: function() {
-        // parse the monster info
-        var monsterConf = '';
-        switch(hunliLevel) {
-            case 0:
-            case 1:
-                {
-                    monsterConf =  this.confData.getFieldValue(__MapConf.FIGHT_MON1);
-                }
-                break;
-            case 2:
-                {
-                    monsterConf =  this.confData.getFieldValue(__MapConf.FIGHT_MON2);
-                }
-                break;
-            default:
-                {
-                    monsterConf =  this.confData.getFieldValue(__MapConf.FIGHT_MON3);
-                }
-                break;
-        }
-        
-        var monsters = monsterConf.split('|');
-        for(vari=0; i<monsters.length; i++) {
-            var params = monsters[i].split('_');
-            monsterList.push(new Monster(params[0], params[1], params[2]));
-        }
     }
     ,
     construct4Sides: function(left, right, top, bottom) {

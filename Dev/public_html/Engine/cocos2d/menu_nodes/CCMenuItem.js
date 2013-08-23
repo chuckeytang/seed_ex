@@ -179,20 +179,7 @@ cc.MenuItem = cc.NodeRGBA.extend(/** @lends cc.MenuItem# */{
         this._callback = callback;
     },
 
-    /**
-     * call the selector with target
-     */
-    activate:function () {
-        if (this._isEnabled) {
-            if (this._target && (typeof(this._callback) == "string")) {
-                this._target[this._callback](this);
-            } else if (this._target && (typeof(this._callback) == "function")) {
-                this._callback.call(this._target, this);
-            } else
-                this._callback(this);
-        }
-    },
-            
+             
     /**
      * chuckey tang
      */
@@ -205,6 +192,20 @@ cc.MenuItem = cc.NodeRGBA.extend(/** @lends cc.MenuItem# */{
      */
     getSelector:function () {
         return this._selector;
+    },
+
+   /**
+     * call the selector with target
+     */
+    activate:function () {
+        if (this._isEnabled) {
+            if (this._target && (typeof(this._callback) == "string")) {
+                this._target[this._callback](this);
+            } else if (this._target && (typeof(this._callback) == "function")) {
+                this._callback.call(this._target, this);
+            } else
+                this._callback(this);
+        }
     }
 });
 

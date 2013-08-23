@@ -2,7 +2,7 @@ var cd = cd || {};
 
 cd.Card = cc.Class.extend({
     type: null,
-    cardInfo: null,
+    cardConf: null,
 
     level: 1,
     lvExp: 0,
@@ -12,17 +12,19 @@ cd.Card = cc.Class.extend({
     defense: 0,
     juqi: 0,
     fanshiRat: 0,
+    fanshi: 0,
     
     ctor: function(type) {
         this.type = type;
-        this.cardInfo = conf.Param.cardList[type];
-        this.lvExp = this.cardInfo.getFieldValueForLv(this.level, __CardConf.LV_EXP);
-        this.hp = this.cardInfo.getFieldValueForLv(this.level, __CardConf.HP);
-        this.attack = this.cardInfo.getFieldValueForLv(this.level, __CardConf.ATTACK);
-        this.criticalRat = this.cardInfo.getFieldValueForLv(this.level, __CardConf.CRITIC_ATTACK);
-        this.defense = this.cardInfo.getFieldValueForLv(this.level, __CardConf.DEFENSE);
-        this.juqi = this.cardInfo.getFieldValueForLv(this.level, __CardConf.JUQI);
-        this.fanshiRat = this.cardInfo.getFieldValueForLv(this.level, __CardConf.FANSHI);
+        this.cardConf = conf.Param.cardList[type];
+        this.lvExp = this.cardConf.getExpForLv();
+        this.hp = this.cardConf.getHpForLv();
+        this.attack = this.cardConf.getAttackForLv();
+        this.criticalRat = this.cardConf.getCriticAttackForLv();
+        this.defense = this.cardConf.getDefenseForLv();
+        this.juqi = this.cardConf.getJuqiForLv();
+        this.fanshiRat = this.cardConf.getFanshiRatForLv();
+        this.fanshi = this.attack*this.fanshiRat;
     }
     ,
     flush: function() {
@@ -33,12 +35,12 @@ cd.Card = cc.Class.extend({
     loadFromDB: function() {
         var db = cc.UserDefault.getInstance();
         this.level = db.getStringForKey(this.type+'_'+this.level.toString());
-        this.hp = this.cardInfo.getFieldValueForLv(this.level, __CardConf.HP);
-        this.attack = this.cardInfo.getFieldValueForLv(this.level, __CardConf.ATTACK);
-        this.criticalRat = this.cardInfo.getFieldValueForLv(this.level, __CardConf.CRITIC_ATTACK);
-        this.fanshiRat = this.cardInfo.getFieldValueForLv(this.level, __CardConf.FANSHI);
-        this.defense = this.cardInfo.getFieldValueForLv(this.level, __CardConf.DEFENSE);
-        this.juqi = this.cardInfo.getFieldValueForLv(this.level, __CardConf.JUQI);
+        this.hp = this.cardConf.getFieldValueForLv(this.level, OneCardConf.HP);
+        this.attack = this.cardConf.getFieldValueForLv(this.level, OneCardConf.ATTACK);
+        this.criticalRat = this.cardConf.getFieldValueForLv(this.level, OneCardConf.CRITIC_ATTACK);
+        this.fanshiRat = this.cardConf.getFieldValueForLv(this.level, OneCardConf.FANSHI);
+        this.defense = this.cardConf.getFieldValueForLv(this.level, OneCardConf.DEFENSE);
+        this.juqi = this.cardConf.getFieldValueForLv(this.level, OneCardConf.JUQI);
     }
 });
 
