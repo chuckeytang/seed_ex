@@ -12,16 +12,18 @@
         //SingleEngineFile:'cocos2d-html5.min.js',
         appFiles:[
            'Engine/Lib/ucsv-1.1.0.js',
+           'UICom/UIBase/js_plus.js',
+           'UICom/UIBase/jsb_plus.js',
            
            'Logic/Param.js',
+           'Logic/Fabao.js',
            'Logic/Card.js',
            'Logic/Prop.js',
            'Logic/Map.js',
            'Logic/Player.js',
+           'UICom/UIBase/ScrollView.js',
            'UICom/UIBase/UIDefine.js',
            'UICom/UIBase/Utils.js',
-           'UICom/UIBase/js_plus.js',
-           'UICom/UIBase/jsb_plus.js',
            'UICom/Widgets.js',
            
            'GameCCB/W_MainLayer.js',

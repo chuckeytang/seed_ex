@@ -1,8 +1,8 @@
 CardID,CardName,AbsorbCardCD,FabaoType1,FabaoType2,FabaoType3,Star0_1CardNum,Star1_2CardNum,Star2_3CardNum,Star3_4CardNum,Star4_5CardNum
-C_TangSangzang,ÌÆÈı²Ø,1,Fo,Fo,Fo,1,4,12,20,40
-C_SunWukong,ËïÎò¿Õ,1,Fo,Xian,Sha,1,4,12,20,40
-C_ZhuBajie,Öí°Ë½ä,1,Xian,Fo,Fo,1,4,12,20,40
-C_ShaHeshang,É³ºÍÉĞ,1,Mo,Xian,Fo,1,4,12,20,40
+C_TangSangzang,ÌÆÈı²Ø,1,F_Zijinboyu,Fo,Fo,1,4,12,20,40
+C_SunWukong,ËïÎò¿Õ,1,Fo,F_Jingubang,Sha,1,4,12,20,40
+C_ZhuBajie,Öí°Ë½ä,1,F_Jiuchidingpa,Fo,Fo,1,4,12,20,40
+C_ShaHeshang,É³ºÍÉĞ,1,F_Yueyachan,Xian,Fo,1,4,12,20,40
 C_BaiLongma,Ğ¡°×Áú,1,Fo,Xian,Sha,1,4,12,20,40
 C_LiuBoxin,ÁÔ»§Áõ²®ÇÕ,1,Sha,Xian,Sha,1,4,12,20,40
 C_WukongLiuyi,Îò¿ÕÁùÒâ,1,Fo,Xian,Sha,1,4,12,20,40

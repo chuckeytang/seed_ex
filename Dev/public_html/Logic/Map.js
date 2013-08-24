@@ -11,57 +11,47 @@ var AreaMap = Map.extend({
 });
 
 var LevelNode = cc.Class.extend({
-    confData: null,
+    _confData: null,
     leftNode: null,
     rightNode: null,
     topNode: null,
     bottomNode: null,
     
-    ctor: function(zone, level) {
-        this.confData = conf.Param.mapConf.getLevelInfo(zone, level);
+    ctor: function(levelConf) {
+        this._confData = levelConf;
     }
     ,
-    construct4Sides: function(left, right, top, bottom) {
-        this.leftNode = left;
-        this.rightNode = right;
-        this.topNode = top;
-        this.bottomNode = bottom;
+    construct4Sides: function(zone) {
+        this.leftNode = zone.getLevelNodeByAbID(_confData.getLeftLevel());
+        this.rightNode = zone.getLevelNodeByAbID(_confData.getRightLevel());
+        this.topNode = zone.getLevelNodeByAbID(_confData.getTopLevel());
+        this.bottomNode = zone.getLevelNodeByAbID(_confData.getBottomLevel());
     }
 });
 
 var ZoneMap = Map.extend({
-    levelList: new Array(),         // all levels in the zone stored here with key ID
-    rootLevel: null,
-    ctor: function(zoneID) {
-        var zoneInfo = conf.mapConf.getZoneInfo(zoneID);
-        for(var i=0; i<zoneInfo.levelCnt; i++) {
-            var levelNode = new LevelNode(zoneID, i);
-            if(i===0) {
-                rootLevel = levelNode;
-            }
-            levelList[levelNode.conf[conf.ID]] = levelNode;
+    _zoneID: null,
+    _levelList: new Array(),         // all levels in the zone stored here with key ID
+    _rootLevel: null,
+    ctor: function(_zoneID) {
+        this._zoneID = _zoneID;
+        var zoneInfo = conf.mapConf.getZoneInfo(_zoneID);
+        var levelConfList = zoneInfo.getLevelList();
+        for(var i=0; i<levelConfList.length; i++) {
+            _levelList.push(new LevelNode(levelConfList[i]));
         }
+        this._rootLevel = this._levelList[0];
         
-        for(var levelNode in levelList) {
-            // if the configuration of this level has left branch and its branch is contained in levelList
-            var leftNode = null, rightNode = null, topNode = null, bottomNode = null;
-            if (levelNode.conf[conf.BRANCH_LEFT]) {
-                leftNode = levelList[levelNode.conf[conf.BRANCH_LEFT]];
-            }
-            
-            if (rightNode.conf[conf.BRANCH_RIGHT]) {
-                rightNode = levelList[levelNode.conf[conf.BRANCH_RIGHT]];
-            }
-            
-            if (topNode.conf[conf.BRANCH_TOP]) {
-                topNode = levelList[levelNode.conf[conf.BRANCH_TOP]];
-            }
-            
-            if (levelNode.conf[conf.BRANCH_BOTTOM]) {
-                bottomNode = levelList[levelNode.conf[conf.BRANCH_BOTTOM]];
-            }
-            
-            construct4Sides(leftNode, rightNode, topNode, bottomNode);
+        for(var i=0; i<this._levelList.length; i++) {
+            this._levelList[i].construct4Sides(this);
         }
+    }
+    ,
+    getLevelNode: function(zoneLevel) {
+        return this._levelList[zoneLevel];
+    }
+    ,
+    getLevelNodeByAbID: function(abLevel) {
+        return this._levelList[conf.Param.mapConf.convertToZoneLevel(abLevel)];
     }
 });

@@ -1,8 +1,8 @@
 var cd = cd || {};
 
 cd.Card = cc.Class.extend({
-    id: null,
-    cardConf: null,
+    _id: null,
+    _cardConf: null,
 
     curLevel: 1,
     maxHp: 0,
@@ -14,9 +14,7 @@ cd.Card = cc.Class.extend({
     fanshi: 0,
     
     ctor: function(ID) {
-        this.id = ID;
-        this.cardConf = conf.Param.cardList[id];
-        this.updateMyData();
+        this._id = ID;
     }
     ,
     flush: function() {
@@ -30,13 +28,13 @@ cd.Card = cc.Class.extend({
         this.updateMyData();
     }
     ,
-    _updateMyData: function() {
-        this.maxHp = this.cardConf.getHpForLv(this.curLevel);
-        this.attack = this.cardConf.getAttackForLv(this.curLevel);
-        this.criticalRat = this.cardConf.getCriticAttackForLv(this.curLevel);
-        this.defense = this.cardConf.getDefenseForLv(this.curLevel);
-        this.juqi = this.cardConf.getJuqiForLv(this.curLevel);
-        this.fanshiRat = this.cardConf.getFanshiRatForLv(this.curLevel);
+    updateMyData: function() {
+        this.maxHp = this._cardConf.getHpForLv(this.curLevel);
+        this.attack = this._cardConf.getAttackForLv(this.curLevel);
+        this.criticalRat = this._cardConf.getCriticAttackForLv(this.curLevel);
+        this.defense = this._cardConf.getDefenseForLv(this.curLevel);
+        this.juqi = this._cardConf.getJuqiForLv(this.curLevel);
+        this.fanshiRat = this._cardConf.getFanshiRatForLv(this.curLevel);
         this.fanshi = this.attack*this.fanshiRat;
     }
 });
@@ -48,8 +46,10 @@ cd.PlayerCard = cd.Card.extend({
     reviveTime: 0,
     juqiExp: 0,
     
-    ctor: function(type) {
-        this._super(type);
+    ctor: function(ID) {
+        this._super(ID);
+        this._cardConf = conf.Param.cardList[ID];
+        this.updateMyData();
     }
     ,
     flush: function() {
@@ -69,10 +69,10 @@ cd.PlayerCard = cd.Card.extend({
         
     }
     ,
-    _updateMyData: function() {
+    updateMyData: function() {
         this._super();
-        this.lvExp = this.cardConf.getExpForLv(this.curLevel);
-        this.recoverHPSpeed = this.cardConf.getRecoverHPSpeedForLv(this.curLevel);
+        this.lvExp = this._cardConf.getExpForLv(this.curLevel);
+        this.recoverHPSpeed = this._cardConf.getRecoverHPSpeedForLv(this.curLevel);
         this.reviveTime = this.getReviveTimeForLv(this.curLevel);
         this.juqiExp = this.getJuqiExpForLv(this.curLevel);
     }
@@ -80,8 +80,10 @@ cd.PlayerCard = cd.Card.extend({
 
 cd.MonsterCard = cd.Card.extend({
     
-    ctor: function(type) {
-        this._super(type);
+    ctor: function(ID) {
+        this._super(ID);
+        this._cardConf = conf.Param.monsterList[ID];
+        this.updateMyData();
     }
     ,
     flush: function() {
