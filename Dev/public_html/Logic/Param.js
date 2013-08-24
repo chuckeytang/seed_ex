@@ -32,7 +32,7 @@ conf.PROP_XIANTAO = "Xiantao";
 conf.PROP_PANTAO = "Pantao";
 conf.PROP_HUANHUNDAN = "Huanhundan";
 
-conf.card_type = [
+conf.card_id = [
     conf.TANGSANZANG,
     conf.SUNWUKONG,
     conf.ZHUBAJIE,
@@ -59,21 +59,21 @@ conf.card_type = [
 ];
 
 __ComonCardConf = cc.Class.extend({
-    allCardInfo: new Array(),
+    _allCardInfo: new Array(),
     _colMapping: new Array(),
     ctor: function(){
-        this.allCardInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/Card/CardConf.csv'), true);
-        for(var i=0; i<this.cardLevelInfo[0].length; i++) {
-            this._colMapping[this.cardLevelInfo[0][i]]=i;
+        this._allCardInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/CardConf.csv'), true);
+        for(var i=0; i<this._cardLevelInfo[0].length; i++) {
+            this._colMapping[this._cardLevelInfo[0][i]]=i;
         }
     }
     ,
     getInfoForCardID: function(cardID) {
-        return this.allCardInfo[cardID];
+        return this._allCardInfo[cardID];
     }
     ,
     getFieldValueForCardID: function(cardID, field) {
-        return this.allCardInfo[cardID][this._colMapping[field]];
+        return this._allCardInfo[cardID][this._colMapping[field]];
     }
 });
 
@@ -88,7 +88,6 @@ __ComonCardConf.STAR_1_2_Card_NUM = 'Star1_2CardNum';
 __ComonCardConf.STAR_2_3_Card_NUM = 'Star2_3CardNum';
 __ComonCardConf.STAR_3_4_Card_NUM = 'Star3_4CardNum';
 __ComonCardConf.STAR_4_5_Card_NUM = 'Star4_5CardNum';
-conf.commonCardConf = new __ComonCardConf();
 
 OneCardConf = cc.Class.extend({
     cardID: null,
@@ -102,57 +101,69 @@ OneCardConf = cc.Class.extend({
     star2_3CardNum: null,
     star3_4CardNum: null,
     star4_5CardNum: null,
-    cardLevelInfo: new Array(),
+    _cardLevelInfo: new Array(),
     _colMapping: new Array(),
     ctor: function(ID){
         this.cardID = ID;
-        this.cardLevelInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/Card/'+ID+'.csv'), true);
-        for(var i=0; i<this.cardLevelInfo[0].length; i++) {
-            this._colMapping[this.cardLevelInfo[0][i]]=i;
+        this._cardLevelInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/Card/'+ID+'.csv'), true);
+        for(var i=0; i<this._cardLevelInfo[0].length; i++) {
+            this._colMapping[this._cardLevelInfo[0][i]]=i;
         }
         
-        this.cardName = conf.commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.CARD_NAME);
-        this.absorbCardCD = conf.commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.ABSORB_CARD_CD);
-        this.fabaoType1 = conf.commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.FABAO_TYPE_1);
-        this.fabaoType2 = conf.commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.FABAO_TYPE_2);
-        this.fabaoType3 = conf.commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.FABAO_TYPE_3);
-        this.star0_1CardNum = conf.commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.STAR_0_1_Card_NUM);
-        this.star1_2CardNum = conf.commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.STAR_1_2_Card_NUM);
-        this.star2_3CardNum = conf.commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.STAR_2_3_Card_NUM);
-        this.star3_4CardNum = conf.commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.STAR_3_4_Card_NUM);
-        this.star4_5CardNum = conf.commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.STAR_4_5_Card_NUM);
+        this.cardName = conf.Param._commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.CARD_NAME);
+        this.absorbCardCD = conf.Param._commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.ABSORB_CARD_CD);
+        this.fabaoType1 = conf.Param._commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.FABAO_TYPE_1);
+        this.fabaoType2 = conf.Param._commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.FABAO_TYPE_2);
+        this.fabaoType3 = conf.Param._commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.FABAO_TYPE_3);
+        this.star0_1CardNum = conf.Param._commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.STAR_0_1_Card_NUM);
+        this.star1_2CardNum = conf.Param._commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.STAR_1_2_Card_NUM);
+        this.star2_3CardNum = conf.Param._commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.STAR_2_3_Card_NUM);
+        this.star3_4CardNum = conf.Param._commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.STAR_3_4_Card_NUM);
+        this.star4_5CardNum = conf.Param._commonCardConf.getFieldValueForCardID(ID, __ComonCardConf.STAR_4_5_Card_NUM);
     }
     ,
     getExpForLv: function(level) {
-        return this.cardLevelInfo[level][this._colMapping[OneCardConf.EXP]];
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.EXP]];
     }
     ,
     getLvExpForLv: function(level) {
-        return this.cardLevelInfo[level][this._colMapping[OneCardConf.LV_EXP]];
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.LV_EXP]];
     }
     ,
     getHpForLv: function(level) {
-        return this.cardLevelInfo[level][this._colMapping[OneCardConf.HP]];
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.HP]];
     }
     ,
     getAttackForLv: function(level) {
-        return this.cardLevelInfo[level][this._colMapping[OneCardConf.ATTACK]];
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.ATTACK]];
     }
     ,
     getCriticAttackForLv: function(level) {
-        return this.cardLevelInfo[level][this._colMapping[OneCardConf.CRITIC_ATTACK]];
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.CRITIC_ATTACK]];
     }
     ,
     getFanshiRatForLv: function(level) {
-        return this.cardLevelInfo[level][this._colMapping[OneCardConf.FANSHI]];
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.FANSHI]];
     }
     ,
     getDefenseForLv: function(level) {
-        return this.cardLevelInfo[level][this._colMapping[OneCardConf.DEFENSE]];
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.DEFENSE]];
     }
     ,
     getJuqiForLv: function(level) {
-        return this.cardLevelInfo[level][this._colMapping[OneCardConf.JUQI]];
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.JUQI]];
+    }    
+    ,
+    getRecoverHPSpeedForLv: function(level) {
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.RECOVER_HP_SPEED]];
+    }    
+    ,
+    getReviveTimeForLv: function(level) {
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.REVIVE_TIME]];
+    }    
+    ,
+    getJuqiExpForLv: function(level) {
+        return this._cardLevelInfo[level][this._colMapping[OneCardConf.JUQI_EXP]];
     }    
 });
 
@@ -164,23 +175,26 @@ OneCardConf.CRITIC_ATTACK = 'CriticAtt';
 OneCardConf.FANSHI = 'Fanshi';
 OneCardConf.DEFENSE = 'Defense';
 OneCardConf.JUQI = 'Juqi';
+OneCardConf.RECOVER_HP_SPEED = 'RecoverHPSpeed';
+OneCardConf.REVIVE_TIME = 'ReviveTime';
+OneCardConf.JUQI_EXP = 'JuqiExp';
 
 MonsterCardConf = cc.Class.extend({    
-    monsterInfo: new Array(),
+    _monsterInfo: new Array(),
     _colMapping: new Array(),
     ctor: function(){
-        this.monsterInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/monster_card.csv'), true);
-        for(var i=0; i<this.monsterInfo[0].length; i++) {
-            this._colMapping[this.monsterInfo[0][i]]=i;
+        this._monsterInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/monster_card.csv'), true);
+        for(var i=0; i<this._monsterInfo[0].length; i++) {
+            this._colMapping[this._monsterInfo[0][i]]=i;
         }
     }
     ,
     getMonsterType: function(monID){
-        return this.monsterInfo[monID][this._colMapping[MonsterCardConf.TYPE]];
+        return this._monsterInfo[monID][this._colMapping[MonsterCardConf.TYPE]];
     }
     ,
     getMonsterName: function(monID){
-        return this.monsterInfo[monID][this._colMapping[MonsterCardConf.NAME]];
+        return this._monsterInfo[monID][this._colMapping[MonsterCardConf.NAME]];
     }
 });
 MonsterCardConf.MONSTER_ID = 'MonsterID';
@@ -189,60 +203,21 @@ MonsterCardConf.TYPE = 'Type';
 
 
 __CommonFabaoConf = cc.Class.extend({
-    fabaoInfo: new Array(),
+    _fabaoInfo: new Array(),
     _colMapping: new Array(),
     ctor: function() {
-        this.fabaoInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/FabaoConf.csv'), true);
-        for(var i=0; i<this.fabaoInfo[0].length; i++) {
-            this._colMapping[this.fabaoInfo[0][i]]=i;
+        this._fabaoInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/FabaoConf.csv'), true);
+        for(var i=0; i<this._fabaoInfo[0].length; i++) {
+            this._colMapping[this._fabaoInfo[0][i]]=i;
         }
     }
     ,
-    getFragNum: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.FRAG_NUM]];
-    }
-    ,
-    getFabaoType: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.FABAO_TYPE]];
-    }
-    ,
-    getRecoverCDRound: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.RECOVER_CD_ROUND]];
-    }
-    ,
-    getAbsorbFragCD: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.ABSORB_FRAG_CD]];
-    }
-    ,
-    getLevel0To1AbsorbNum: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.LEVEL_0_1_NUM]];
-    }
-    ,
-    getLevel1To2AbsorbNum: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.LEVEL_1_2_NUM]];
-    }
-    ,
-    getLeve20To3AbsorbNum: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.LEVEL_2_3_NUM]];
-    }
-    ,
-    getLevel3To4AbsorbNum: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.LEVEL_3_4_NUM]];
-    }
-    ,
-    getLevel4To5AbsorbNum: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.LEVEL_4_5_NUM]];
-    }
-    ,
-    getSkill1ID: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.SKILL1]];
-    }
-    ,
-    getSkill2ID: function(fabaoID) {
-        return this.fabaoInfo[fabaoID][this._colMapping[__CommonFabaoConf.SKILL2]];
+    getFieldValueForCardID: function(_fabaoID, field){
+        return this._fabaoInfo[_fabaoID][this._colMapping[__CommonFabaoConf.field]];
     }
 });
 __CommonFabaoConf.FABAO_ID = 'FabaoID';
+__CommonFabaoConf.NAME = 'Name';
 __CommonFabaoConf.FRAG_NUM = 'FragNum';
 __CommonFabaoConf.FABAO_TYPE = 'Type';
 __CommonFabaoConf.RECOVER_CD_ROUND = 'RecoverCDRound';
@@ -255,126 +230,555 @@ __CommonFabaoConf.LEVEL_4_5_NUM = 'Level4_5Num';
 __CommonFabaoConf.SKILL1 = 'Skill1';
 __CommonFabaoConf.SKILL2 = 'Skill2';
 
-conf.commonFabaoConf = new __CommonFabaoConf();
-
-__SkillConf = cc.Class.extend({
+SkillConf = cc.Class.extend({
     _colMapping: new Array(),
-    _maxCommonLength: 6,
-    skillID: null,
-    skillInfo: new Array(),
-    buffCount: null,
+    _maxCommonLength: 7,
+    _skillID: null,
+    _skillInfo: new Array(),
+    _buffCount: null,
     ctor: function(ID) {
-        this.skillInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/'+ID+'.csv'), true);
+        this._skillInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/Skill/'+ID+'.csv'), true);
         for(var i=0; i<_maxCommonLength; i++) {
-            this._colMapping[this.skillInfo[0][i]]=i;
+            this._colMapping[this._skillInfo[0][i]]=i;
         }
-        this.buffCount = this.skillInfo.length-_maxCommonLength;
+        this._buffCount = this._skillInfo.length-_maxCommonLength;
+    }
+    ,
+    getSkillID: function() {
+        return this._skillID;
+    }
+    ,
+    getSkillNameForLv: function(level) {
+        return this._skillInfo[level][this._colMapping[SkillConf.NAME]];
+    }
+    ,
+    getCardLevelNeedForLv: function(level) {
+        return this._skillInfo[level][this._colMapping[SkillConf.CARD_LEVEL_NEED]];
+    }
+    ,
+    getSkillTypeForLv: function(level) {
+        return this._skillInfo[level][this._colMapping[SkillConf.SKILL_TYPE]];
+    }
+    ,
+    getRecoverCDRoundForLv: function(level) {
+        return this._skillInfo[level][this._colMapping[SkillConf.RECOVER_CD_ROUND]];
+    }
+    ,
+    getBuffRoundForLv: function(level) {
+        return this._skillInfo[level][this._colMapping[SkillConf.BUFF_ROUND]];
+    }
+    ,
+    getDebufRoundForLv: function(level) {
+        return this._skillInfo[level][this._colMapping[SkillConf.DEBUFF_ROUND]];
     }
     ,
     getBuffCount: function(){
-        return this.buffCount;
+        return this._buffCount;
     }
     ,
     getBuffType: function(index) {
         if(index < 0 || index >= this.getBuffCount())
             return null;
-        return this.skillInfo[0][index+this._maxCommonLength];
+        return this._skillInfo[0][index+this._maxCommonLength];
     }
     ,
     getBuffForLv: function(buffID, lv) {
-        return this.skillInfo[lv][buffID];
+        return this._skillInfo[lv][buffID];
     }
 });
-__SkillConf.LEVEL = 'Level';
-__SkillConf.NAME = 'Name';
-__SkillConf.CARD_LEVEL_NEED = 'CardLevelNeed';
-__SkillConf.SKILL_TYPE = 'Type';
-__SkillConf.BUFF_ROUND = 'BuffRound';
-__SkillConf.DEBUFF_ROUND = 'DebufRound';
+SkillConf.LEVEL = 'Level';
+SkillConf.NAME = 'Name';
+SkillConf.CARD_LEVEL_NEED = 'CardLevelNeed';
+SkillConf.SKILL_TYPE = 'Type';
+SkillConf.RECOVER_CD_ROUND = 'RecoverCDRound';
+SkillConf.BUFF_ROUND = 'BuffRound';
+SkillConf.DEBUFF_ROUND = 'DebufRound';
 
 OneFabaoConf = cc.Class.extend({
-    fabaoID: null,
-    fragNum: null,
-    fabaoType: null,
-    recoverCDRound: null,
-    absorbCD: null,
-    level01Num: null,
-    level12Num: null,
-    level23Num: null,
-    level34Num: null,
-    level45Num: null,
-    skill1: null,
-    skill2: null,
+    _fabaoID: null,
+    _name: null,
+    _fragNum: null,
+    _fabaoType: null,
+    _recoverCDRound: null,
+    _absorbCD: null,
+    _level01Num: null,
+    _level12Num: null,
+    _level23Num: null,
+    _level34Num: null,
+    _level45Num: null,
+    _skill1: null,
+    _skill2: null,
     ctor: function(ID) {
-        this.fabaoID = ID;
+        this._fabaoID = ID;
         
-        this.fragNum = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.FRAG_NUM);
-        this.fabaoType = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.FABAO_TYPE);
-        this.recoverCDRound = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.RECOVER_CD_ROUND);
-        this.absorbCD = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.ABSORB_FRAG_CD);
-        this.level01Num = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_0_1_NUM);
-        this.level12Num = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_1_2_NUM);
-        this.level23Num = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_2_3_NUM);
-        this.level34Num = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_3_4_NUM);
-        this.level45Num = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_4_5_NUM);
-        this.level34Num = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_3_4_NUM);
-        this.level45Num = conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_4_5_NUM);
+        this._fragNum = conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.FRAG_NUM);
+        this._name = conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.NAME);
+        this._fabaoType = conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.FABAO_TYPE);
+        this._recoverCDRound = conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.RECOVER_CD_ROUND);
+        this._absorbCD = conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.ABSORB_FRAG_CD);
+        this._level01Num = conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_0_1_NUM);
+        this._level12Num = conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_1_2_NUM);
+        this._level23Num = conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_2_3_NUM);
+        this._level34Num = conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_3_4_NUM);
+        this._level45Num = conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.LEVEL_4_5_NUM);
         
-        this.skill1 = new __SkillConf(conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.SKILL1));
-        this.skill2 = new __SkillConf(conf.commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.SKILL2));
+        this._skill1 = new SkillConf(conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.SKILL1));
+        this._skill2 = new SkillConf(conf.Param._commonFabaoConf.getFieldValueForCardID(ID, __CommonFabaoConf.SKILL2));
+    }
+    ,
+    getFabaoID: function() {
+        return this._fabaoID;
+    }
+    ,
+    getFragNum: function() {
+        return this._fragNum;
+    }
+    ,
+    getFabaoType: function() {
+        return this._fabaoType;
+    }
+    ,
+    getRecoverCDRound: function(_fabaoID) {
+        return this._recoverCDRound;
+    }
+    ,
+    getAbsorbFragCD: function(_fabaoID) {
+        return this._absorbCD;
+    }
+    ,
+    getLevel0To1AbsorbNum: function(_fabaoID) {
+        return this._level01Num;
+    }
+    ,
+    getLevel1To2AbsorbNum: function(_fabaoID) {
+        return this._level12Num;
+    }
+    ,
+    getLeve20To3AbsorbNum: function(_fabaoID) {
+        return this._level23Num;
+    }
+    ,
+    getLevel3To4AbsorbNum: function(_fabaoID) {
+        return this._level34Num;
+    }
+    ,
+    getLevel4To5AbsorbNum: function(_fabaoID) {
+        return this._level45Num;
+    }
+    ,
+    getSkill1ID: function(_fabaoID) {
+        return this._skill1;
+    }
+    ,
+    getSkill2ID: function(_fabaoID) {
+        return this._skill2;
     }
 });
 
-__ZoneConf = cc.Class.extend({
-    zoneID: null,
-    levelCnt: null,
-    ctor: function(zoneID, levelCnt) {
-        this.zoneID = zoneID;
-        this.levelCnt = levelCnt;
+    
+__CommonMonsterConf = cc.Class.extend({
+    _colMapping: new Array(),
+    _monsterInfo: new Array(),
+    ctor: function() {
+        this._monsterInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/MonsterCard.csv'), true);
+        for(var i=0; i<this._monsterInfo[0].length; i++) {
+            this._colMapping[this._monsterInfo[0][i]]=i;
+        }
+    }
+    ,
+    getFieldValueForCardID: function(monsterID, field){
+        return this._monsterInfo[monsterID][this._colMapping[__CommonMonsterConf.field]];
+    }    
+});
+__CommonMonsterConf.MONSTER_ID = 'MonsterID';
+__CommonMonsterConf.MONSTER_NAME = 'Name';
+__CommonMonsterConf.MONSTER_TYPE = 'Type';
+
+OneMonsterConf = cc.Class.extend({
+    _colMapping: new Array(),
+    monsterID: null,
+    monsterName: null,
+    _monsterInfo: null,
+    monsterCardInfo: null,
+    ctor: function(ID){
+        this.monsterID = ID;
+        this._monsterInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/Monster/'+ID+'.csv'), true);
+        for(var i=0; i<this._cardLevelInfo[0].length; i++) {
+            this._colMapping[this._cardLevelInfo[0][i]]=i;
+        }
+        this.monsterName = conf.Param._commonMonsterConf.getFieldValueForCardID(ID, __CommonMonsterConf.MONSTER_NAME);
+        this.monsterCardInfo = conf.cardList[conf.Param._commonMonsterConf.getFieldValueForCardID(ID, __CommonMonsterConf.MONSTER_TYPE)];
+    }
+    ,
+    getMonsterID: function() {
+        return this.monsterID;
+    }
+    , 
+    getMonsterName: function() {
+        return this.monsterName;
+    }
+    ,
+    getHpForLv: function(level) {
+        return this.monsterCardInfo.getHpForLv(level);
+    }
+    ,
+    getAttackForLv: function(level) {
+        return this.monsterCardInfo.getAttackForLv(level);
+    }
+    ,
+    getCriticAttackForLv: function(level) {
+        return this.monsterCardInfo.getCriticAttackForLv(level);
+    }
+    ,
+    getFanshiRatForLv: function(level) {
+        return this.monsterCardInfo.getFanshiRatForLv(level);
+    }
+    ,
+    getDefenseForLv: function(level) {
+        return this.monsterCardInfo.getDefenseForLv(level);
+    }
+    ,
+    getJuqiForLv: function(level) {
+        return this.monsterCardInfo.getJuqiForLv(level);
+    }
+    ,
+    getCardDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.CARD_DROP]];
+    }
+    ,
+    getExpDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.EXP_DROP]];
+    }
+    ,
+    getXianliDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.XIANLI_DROP]];
+    }
+    ,
+    getCoinDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.COIN_DROP]];
+    }
+    ,
+    getXiantaoDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.XIANTAO_DROP]];
+    }
+    ,
+    getPantaoDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.PANTAO_DROP]];
+    }
+    ,
+    getRenshengguoDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.RENSHENGGUO_DROP]];
+    }
+    ,
+    getHuanhundanDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.HUANHUNDAN_DROP]];
+    }
+    ,
+    getLuckyCharmDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.LUCKY_CHARM_DROP]];
+    }
+    ,
+    getFeverCharmDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.FEVER_CHARM_DROP]];
+    }
+    ,
+    getFriendCharmDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.FRIEND_CHARM_DROP]];
+    }
+    ,
+    getYuanbaoDropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.YUANBAO_DROP]];
+    }
+    ,
+    getSuipian1DropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.SUIPIAN1_DROP]];
+    }
+    ,
+    getSuipian2DropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.SUIPIAN2_DROP]];
+    }
+    ,
+    getSuipian3DropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.SUIPIAN3_DROP]];
+    }
+    ,
+    getSuipian4DropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.SUIPIAN4_DROP]];
+    }
+    ,
+    getSuipian5DropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.SUIPIAN5_DROP]];
+    }
+    ,
+    getSuipian6DropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.SUIPIAN6_DROP]];
+    }
+    ,
+    getSuipian7DropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.SUIPIAN7_DROP]];
+    }
+    ,
+    getSuipian8DropForLv: function(level) {
+        return this._monsterInfo[level][this._colMapping[OneMonsterConf.SUIPIAN8_DROP]];
+    }
+});
+
+OneMonsterConf.LEVEL = 'Level';
+OneMonsterConf.CARD_DROP = 'CardDrop';
+OneMonsterConf.EXP_DROP = 'ExpDrop';
+OneMonsterConf.XIANLI_DROP = 'XianliDrop';
+OneMonsterConf.COIN_DROP = 'CoinDrop';
+OneMonsterConf.XIANTAO_DROP = 'XiantaoDrop';
+OneMonsterConf.PANTAO_DROP = 'PantaoDrop';
+OneMonsterConf.RENSHENGGUO_DROP = 'RenshengguoDrop';
+OneMonsterConf.HUANHUNDAN_DROP = 'HuanhundanDrop';
+OneMonsterConf.LUCKY_CHARM_DROP = 'LuckyCharmDrop';
+OneMonsterConf.FEVER_CHARM_DROP = 'FeverCharmDrop';
+OneMonsterConf.FRIEND_CHARM_DROP = 'FriendCharmDrop';
+OneMonsterConf.YUANBAO_DROP = 'YuanbaoDrop';
+OneMonsterConf.SUIPIAN1_DROP = 'Suipian1Drop';
+OneMonsterConf.SUIPIAN2_DROP = 'Suipian2Drop';
+OneMonsterConf.SUIPIAN3_DROP = 'Suipian3Drop';
+OneMonsterConf.SUIPIAN4_DROP = 'Suipian4Drop';
+OneMonsterConf.SUIPIAN5_DROP = 'Suipian5Drop';
+OneMonsterConf.SUIPIAN6_DROP = 'Suipian6Drop';
+OneMonsterConf.SUIPIAN7_DROP = 'Suipian7Drop';
+OneMonsterConf.SUIPIAN8_DROP = 'Suipian8Drop';
+
+LevelConf = cc.Class.extend({
+    _absoluteLevelID: null,
+    _belongZone: null,
+    _thisLevelID: null,
+    _levelDesc: null,
+    _maxSoulCollect: null,
+    _levelType: null,
+    _nextFightCD: null,
+    _score1Reward: null,
+    _score2Reward: null,
+    _score3Reward: null,
+    _score4Reward: null,
+    _1stFightMonList: null,
+    _2ndFightMonList: null,
+    _3rdFightMonList: null,
+    _1stFightCardNum: null,
+    _2ndFightCardNum: null,
+    _3rdFightCardNum: null,
+    _storyDropItem1: null,
+    _storyDropItem2: null,
+    _storyDropItem3: null,
+    _hasStory: null,
+    _leftLevel: null,
+    _rightLevel: null,
+    _topLevel: null,
+    _bottomLevel: null,
+    ctor: function(levelInfo, colMapping){
+        this._absoluteLevelID = levelInfo[colMapping[MapConf.ID]];
+        this._belongZone = levelInfo[colMapping[MapConf.ZONE_ID]];
+        this._thisLevelID = levelInfo[colMapping[MapConf.LEVEL_ID]];
+        this._levelDesc = levelInfo[colMapping[MapConf.LEVEL_DESC]];
+        this._maxSoulCollect = levelInfo[colMapping[MapConf.MAX_HUNLI]];
+        this._levelType = levelInfo[colMapping[MapConf.TYPE]];
+        this._nextFightCD = levelInfo[colMapping[MapConf.NEXT_FIGHT_CD]];
+        this._score1Reward = levelInfo[colMapping[MapConf.SCORE_1_REWARD]];
+        this._score2Reward = levelInfo[colMapping[MapConf.SCORE_2_REWARD]];
+        this._score3Reward = levelInfo[colMapping[MapConf.SCORE_3_REWARD]];
+        this._score4Reward = levelInfo[colMapping[MapConf.SCORE_4_REWARD]];
+        this._1stFightCardNum = levelInfo[colMapping[MapConf.FIGHT_CARD_NUM1]];
+        this._2ndFightCardNum = levelInfo[colMapping[MapConf.FIGHT_CARD_NUM2]];
+        this._3rdFightCardNum = levelInfo[colMapping[MapConf.FIGHT_CARD_NUM3]];
+        this._storyDropItem1 = levelInfo[colMapping[MapConf.DROP_ITEM1]];
+        this._storyDropItem2 = levelInfo[colMapping[MapConf.DROP_ITEM2]];
+        this._storyDropItem3 = levelInfo[colMapping[MapConf.DROP_ITEM3]];
+        this._hasStory = levelInfo[colMapping[MapConf.JUQING]];
+        this._leftLevel = levelInfo[colMapping[MapConf.BRANCH_LEFT]];
+        this._rightLevel = levelInfo[colMapping[MapConf.BRANCH_RIGHT]];
+        this._topLevel = levelInfo[colMapping[MapConf.BRANCH_TOP]];
+        this._bottomLevel = levelInfo[colMapping[MapConf.BRANCH_BOTTOM]];
+        
+        var fight1Mons = levelInfo[colMapping[MapConf.FIGHT_MON1]].split('|');
+        for(var i=0; i<fight1Mons.length; i++) {
+            var monParams = fight1Mons[i].split('_');
+            var monsterInfo = conf.Param.monsterList[monParams[0]];
+            this._1stFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[1], monParams[2]]);
+        }
+
+        var fight2Mons = levelInfo[colMapping[MapConf.FIGHT_MON2]].split('|');
+        for(var i=0; i<fight2Mons.length; i++) {
+            var monParams = fight2Mons[i].split('_');
+            var monsterInfo = conf.Param.monsterList[monParams[0]];
+            this._2ndFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[1], monParams[2]]);
+        }
+
+        var fight3Mons = levelInfo[colMapping[MapConf.FIGHT_MON3]].split('|');
+        for(var i=0; i<fight3Mons.length; i++) {
+            var monParams = fight3Mons[i].split('_');
+            var monsterInfo = conf.Param.monsterList[monParams[0]];
+            this._3rdFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[1], monParams[2]]);
+        }
+    }
+    ,
+    getAbsoluteLevelID: function() {
+        return this._absoluteLevelID;
+    }
+    ,
+    getBelongZone: function() {
+        return this._belongZone;
+    }
+    ,
+    getThisLevelID: function() {
+        return this._thisLevelID;
+    }
+    ,
+    getLevelDesc: function() {
+        return this._levelDesc;
+    }
+    ,
+    getMaxSoulCollect: function() {
+        return this._maxSoulCollect;
+    }
+    ,
+    getLevelType: function() {
+        return this._levelType;
+    }
+    ,
+    getNextFightCD: function() {
+        return this._nextFightCD;
+    }
+    ,
+    getScore1Reward: function() {
+        return this._score1Reward;
+    }
+    ,
+    getScore2Reward: function() {
+        return this._score2Reward;
+    }
+    ,
+    getScore3Reward: function() {
+        return this._score3Reward;
+    }
+    ,
+    getScore4Reward: function() {
+        return this._score4Reward;
+    }
+    ,
+    get1stFightCardNum: function() {
+        return this._1stFightCardNum;
+    }
+    ,
+    get2ndFightCardNum: function() {
+        return this._2ndFightCardNum;
+    }
+    ,
+    get3rdFightCardNum: function() {
+        return this._3rdFightCardNum;
+    }
+    ,
+    getStoryDropItem1: function() {
+        return this._storyDropItem1;
+    }
+    ,
+    getStoryDropItem2: function() {
+        return this._storyDropItem2;
+    }
+    ,
+    getStoryDropItem3: function() {
+        return this._storyDropItem3;
+    }
+    ,
+    getHasStory: function() {
+        return this._hasStory;
+    }
+    ,
+    getLeftLevel: function() {
+        return this._leftLevel;
+    }
+    ,
+    getRightLevel: function() {
+        return this._rightLevel;
+    }
+    ,
+    getTopLevel: function() {
+        return this._topLevel;
+    }
+    ,
+    getBottomLevel: function() {
+        return this._bottomLevel;
+    }
+    ,
+    get1stFightMonList: function() {
+        return this._1stFightMonList;
+    }
+    ,
+    get2ndFightMonList: function() {
+        return this._2ndFightMonList;
+    }
+    ,
+    get3rdFightMonList: function() {
+        return this._3rdFightMonList;
+    }
+});
+
+ZoneConf = cc.Class.extend({
+    _zoneID: null,
+    _levelCnt: null,
+    _LevelList: new Array(),
+    ctor: function(_zoneID, _levelCnt, rawLevelInfoList, colMapping) {
+        this._zoneID = _zoneID;
+        this._levelCnt = _levelCnt;
+        for(var i=0; i<rawLevelInfoList.length; i++) {
+            this._LevelList.push(new LevelConf(rawLevelInfoList[i], colMapping));
+        }
+    }
+    ,
+    getZoneID: function() {
+        return this._zoneID;
+    }
+    ,
+    getLevelCnt: function() {
+        return this._levelCnt;
     }
 });
 
 MapConf = cc.Class.extend({
     _colMapping: new Array(),
-    mapInfo: new Array(),
-    zoneInfo: new Array(),
+    _zoneList: new Array(),
     ctor: function(){
-        this.mapInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/map.csv'), true);
-        for(var i=0; i<this.mapInfo[0].length; i++) {
-            this._colMapping[this.mapInfo[0][i]]=i;
+        var rawMapInfo = CSV.csvToArray(cc.FileUtils.getInstance().getTextFileData('Resources/Conf/map.csv'), true);
+        for(var i=0; i<this.rawMapInfo[0].length; i++) {
+            this._colMapping[this.rawMapInfo[0][i]]=i;
         }
         
+        // init zone info
         var levelCnt = 0;
         var zoneID = 0;
-        for(var i=1; i<this.mapInfo.length; i++) {
-            if(this.mapInfo[i][this._colMapping[this.ZONE_ID]] === zoneID) {
+        var levelInfoList = new Array();
+        for(var i=1; i<this.rawMapInfo.length; i++) {
+            if(this.rawMapInfo[i][this._colMapping[this.ZONE_ID]] === zoneID) {
+                levelInfoList.push(this.rawMapInfo[i-1]);
                 levelCnt++;
             }
-            else if(this.mapInfo[i][this._colMapping[this.ZONE_ID]] > zoneID) {
-                this.zoneInfo['Zone'+zoneID] = new __ZoneConf(zoneID, levelCnt);
-                levelCnt=1;
-                zoneID = this.mapInfo[i][this._colMapping[this.ZONE_ID]];
+            else if(this.rawMapInfo[i][this._colMapping[this.ZONE_ID]] > zoneID) {
+                this._zoneList['Zone'+zoneID] = new ZoneConf(zoneID, levelCnt, levelInfoList.clone(), this._colMapping);
+                levelInfoList.clear();
+                zoneID = this.rawMapInfo[i][this._colMapping[this.ZONE_ID]];
+                i--;
             }
         }
-        this.zoneInfo['Zone'+zoneID] = new __ZoneConf(zoneID, levelCnt);
+        this._zoneList['Zone'+zoneID] = new ZoneConf(zoneID, levelCnt, levelInfoList.clone(), this._colMapping);
     }
     ,
     getZoneInfo: function(zoneID) {
-        return this.zoneInfo['Zone'+zoneID];
+        return this._zoneList['Zone'+zoneID];
     }
     ,
     getLevelInfo: function(zone, level) {
-        return this.mapInfo[getAbsoluteLevel(zone,level)];
-    }
-    ,
-    getFieldValueForLevel: function(zone, level, field) {
-        return this.mapInfo[getAbsoluteLevel(zone,level)][this._colMapping[field]];
+        return ;
     }
     ,
     getAbsoluteLevel: function(zone, level) {
         var totalLevel = 0;
-        for(var i=0; i<this.zoneInfo.length && i<zone; i++) {
-            totalLevel += this.zoneInfo['Zone'+i];
+        for(var i=0; i<this._zoneList.length && i<zone; i++) {
+            totalLevel += this._zoneList['Zone'+i];
         }
         totalLevel += (level-1);
     }
@@ -386,12 +790,17 @@ MapConf.LEVEL_ID = 'LevelID';
 MapConf.LEVEL_DESC = 'LevelDesc';
 MapConf.MAX_HUNLI = 'MaxHunli';
 MapConf.TYPE = 'Type';
+MapConf.NEXT_FIGHT_CD = 'CD';
+MapConf.SCORE_1_REWARD = 'Score1Reward';
+MapConf.SCORE_2_REWARD = 'Score2Reward';
+MapConf.SCORE_3_REWARD = 'Score3Reward';
+MapConf.SCORE_4_REWARD = 'Score4Reward';
 MapConf.FIGHT_MON1 = 'FightMon1';
 MapConf.FIGHT_MON2 = 'FightMon2';
 MapConf.FIGHT_MON3 = 'FightMon3';
-MapConf.FIGHT_PLAYER_NUM1 = 'FightPlayerNum1';
-MapConf.FIGHT_PLAYER_NUM2 = 'FightPlayerNum2';
-MapConf.FIGHT_PLAYER_NUM3 = 'FightPlayerNum3';
+MapConf.FIGHT_CARD_NUM1 = 'FightCardNum1';
+MapConf.FIGHT_CARD_NUM2 = 'FightCardNum2';
+MapConf.FIGHT_CARD_NUM3 = 'FightCardNum3';
 MapConf.DROP_ITEM1 = 'DropItem1';
 MapConf.DROP_ITEM2 = 'DropItem2';
 MapConf.DROP_ITEM3 = 'DropItem3';
@@ -400,24 +809,32 @@ MapConf.BRANCH_LEFT = 'BranchLeft';
 MapConf.BRANCH_RIGHT = 'BranchRight';
 MapConf.BRANCH_TOP = 'BranchTop';
 MapConf.BRANCH_BOTTOM = 'BranchBottom';
-    
-MonsterConf = cc.Class.extend({
-    _colMapping: new Array(),
-    monsterInfo: null,
-});
 
 __Param = cc.Class.extend({
-    mapConf: new MapConf(),
-    monsterCardConf: new MonsterCardConf(),
+    _commonCardConf : new __ComonCardConf(),
+    _commonFabaoConf : new __CommonFabaoConf(),
+    _commonMonsterConf: new __CommonMonsterConf(),
+
     cardList: new Array(),
+    monsterList: new Array(),
+    fabaoList: new Array(),
+    mapConf: null,
     
     ctor: function() {
 
-        for(var i=0; i<conf.card_type.length; i++) {
-            this.cardList[conf.card_type[i]] = new OneCardConf(conf.card_type[i]);
+        for (var cardID in this._commonCardConf) {
+            this.cardList[cardID] = new OneCardConf(cardID);
         }
         
-        // special treatment for monsters in level
+        for (var monsterID in this._commonMonsterConf) {
+            this.monsterList[monsterID] = new OneMonsterConf(monsterID);
+        }
+        
+        for (var _fabaoID in this._commonFabaoConf) {
+            this.fabaoList[_fabaoID] = new OneFabaoConf(_fabaoID);
+        }
+        
+        this._mapConf = new MapConf();
     }
 });
 

@@ -1,12 +1,11 @@
 var cd = cd || {};
 
 cd.Card = cc.Class.extend({
-    type: null,
+    id: null,
     cardConf: null,
 
-    level: 1,
-    lvExp: 0,
-    hp: 0,
+    curLevel: 1,
+    maxHp: 0,
     attack: 0,
     criticalRat: 0,
     defense: 0,
@@ -14,38 +13,40 @@ cd.Card = cc.Class.extend({
     fanshiRat: 0,
     fanshi: 0,
     
-    ctor: function(type) {
-        this.type = type;
-        this.cardConf = conf.Param.cardList[type];
-        this.lvExp = this.cardConf.getExpForLv();
-        this.hp = this.cardConf.getHpForLv();
-        this.attack = this.cardConf.getAttackForLv();
-        this.criticalRat = this.cardConf.getCriticAttackForLv();
-        this.defense = this.cardConf.getDefenseForLv();
-        this.juqi = this.cardConf.getJuqiForLv();
-        this.fanshiRat = this.cardConf.getFanshiRatForLv();
-        this.fanshi = this.attack*this.fanshiRat;
+    ctor: function(ID) {
+        this.id = ID;
+        this.cardConf = conf.Param.cardList[id];
+        this.updateMyData();
     }
     ,
     flush: function() {
         var db = cc.UserDefault.getInstance();
-        db.setStringForKey(this.type+'_'+this.level.toString(), this.level);
+        db.setStringForKey(this.type+'_'+this.curLevel.toString(), this.curLevel);
     }
     ,
     loadFromDB: function() {
         var db = cc.UserDefault.getInstance();
-        this.level = db.getStringForKey(this.type+'_'+this.level.toString());
-        this.hp = this.cardConf.getFieldValueForLv(this.level, OneCardConf.HP);
-        this.attack = this.cardConf.getFieldValueForLv(this.level, OneCardConf.ATTACK);
-        this.criticalRat = this.cardConf.getFieldValueForLv(this.level, OneCardConf.CRITIC_ATTACK);
-        this.fanshiRat = this.cardConf.getFieldValueForLv(this.level, OneCardConf.FANSHI);
-        this.defense = this.cardConf.getFieldValueForLv(this.level, OneCardConf.DEFENSE);
-        this.juqi = this.cardConf.getFieldValueForLv(this.level, OneCardConf.JUQI);
+        this.curLevel = db.getStringForKey(this.type+'_'+this.curLevel.toString());
+        this.updateMyData();
+    }
+    ,
+    _updateMyData: function() {
+        this.maxHp = this.cardConf.getHpForLv(this.curLevel);
+        this.attack = this.cardConf.getAttackForLv(this.curLevel);
+        this.criticalRat = this.cardConf.getCriticAttackForLv(this.curLevel);
+        this.defense = this.cardConf.getDefenseForLv(this.curLevel);
+        this.juqi = this.cardConf.getJuqiForLv(this.curLevel);
+        this.fanshiRat = this.cardConf.getFanshiRatForLv(this.curLevel);
+        this.fanshi = this.attack*this.fanshiRat;
     }
 });
 
 cd.PlayerCard = cd.Card.extend({
-    lvExp: 0,   // exp for current level  
+    lvExp: 0,
+    curLvExp: 0,   // exp for current level  
+    recoverHPSpeed: 0,
+    reviveTime: 0,
+    juqiExp: 0,
     
     ctor: function(type) {
         this._super(type);
@@ -54,18 +55,26 @@ cd.PlayerCard = cd.Card.extend({
     flush: function() {
         this._super();
         var db = cc.UserDefault.getInstance();
-        db.setStringForKey(this.type+'_'+this.lvExp.toString(), this.lvExp);
+        db.setStringForKey(this.type+'_'+this.curLvExp.toString(), this.curLvExp);
     }
     ,
     loadFromDB: function() {
         this._super();
         var db = cc.UserDefault.getInstance();
-        this.lvExp = db.getStringForKey(this.type+'_'+this.lvExp.toString());
+        this.curLvExp = db.getStringForKey(this.type+'_'+this.curLvExp.toString());
     }
     ,
     // logic function
     gainExp: function() {
         
+    }
+    ,
+    _updateMyData: function() {
+        this._super();
+        this.lvExp = this.cardConf.getExpForLv(this.curLevel);
+        this.recoverHPSpeed = this.cardConf.getRecoverHPSpeedForLv(this.curLevel);
+        this.reviveTime = this.getReviveTimeForLv(this.curLevel);
+        this.juqiExp = this.getJuqiExpForLv(this.curLevel);
     }
 });
 
