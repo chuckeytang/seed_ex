@@ -1,5 +1,5 @@
 var Player = cc.Class.extend({
-    cardPackage: new Array(),
+    cardPackage: new Array(),   //[<CardID, CardObject, CardNum>, <CardID, CardObject, CardNum>]
     propPackage: new Array(),   //0-name, 1-prop, 2-piled number
     curZone: 0,
     curLevel: 0,
@@ -12,12 +12,12 @@ var Player = cc.Class.extend({
         var db = cc.UserDefault.getInstance();
         var cardTypes = "";
         for(var i=0; i<this.cardPackage.length; i++) {
-            if (!(this.cardPackage[i] instanceof cd.PlayerCard)) {
+            if (!(this.cardPackage[i][1] instanceof cd.PlayerCard)) {
                 cc.log("invalid player card");
                 continue;
             }
-            this.cardPackage[i].flush();
-            cardTypes += (this.cardPackage[i].type + '|');
+            this.cardPackage[i][1].flush();
+            cardTypes += (this.cardPackage[i][1].type + '_' + this.cardPackage[i][2] + '|');
         }
         cardTypes = cardTypes.slice(0, cardTypes.length-1);
 
@@ -42,9 +42,10 @@ var Player = cc.Class.extend({
         if(str !== "") {
             var cardTypes = str.split('|');
             for(var i=0; i<cardTypes.length; i++) {
-                var loadcard = new cd.PlayerCard(cardTypes[i]);
+                var cardDatas = cardTypes[i].split('_');    //[<CardID>, <CardNum>]
+                var loadcard = new cd.PlayerCard(cardDatas[0]);
                 loadcard.loadFromDB();
-                this.cardPackage.push(loadcard);
+                this.cardPackage.push([loadcard.cardID, loadcard, cardDatas[1]]);
             }
         }
         
@@ -62,15 +63,17 @@ var Player = cc.Class.extend({
     }
     ,
     // logic function
-    gainCard: function(cardType) {
-        if(NotNull(this.cardPackage[cardType])) {
-            cc.log("card has already poccessed");
+    gainCard: function(cardID) {
+        var cardInfo = this.cardPackage[cardID];
+        if(NotNull(cardInfo)) {
+            cardInfo[2]++;
             return;
         }
-        this.cardPackage.push(new cd.PlayerCard(cardType));
+        var newCard = new cd.PlayerCard(cardID);
+        this.cardPackage.push([newCard.cardID, newCard, 1]);
         
         //ui behavior
-        if (gMainScene.getCurCCBLayer() instanceof Window.Window_FightLayer) {
+        if (gMainScene.getCurCCBLayer() instanceof Window_FightLayer) {
             var fightWindow = gMainScene.getCurCCBLayer();
             fightWindow.pumpGainedCard();
         }

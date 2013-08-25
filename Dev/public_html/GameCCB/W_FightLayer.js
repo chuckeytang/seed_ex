@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-Window.Window_FightLayer = cc.CCBLayer.extend({
+var Window_FightLayer = cc.CCBLayer.extend({
     ctor:function() {
         "use strict";
         this._super();

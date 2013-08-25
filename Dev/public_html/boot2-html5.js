@@ -15,5 +15,7 @@ var CCBMainScene = cc.Scene.extend({
         gMainScene = this;
         
         gPlayer = new Player();
+        gPlayer.gainCard('C_TangSangzang');
+        gPlayer.gainCard('C_SunWukong');
     }
 });

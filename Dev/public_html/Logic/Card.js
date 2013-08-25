@@ -73,8 +73,8 @@ cd.PlayerCard = cd.Card.extend({
         this._super();
         this.lvExp = this._cardConf.getExpForLv(this.curLevel);
         this.recoverHPSpeed = this._cardConf.getRecoverHPSpeedForLv(this.curLevel);
-        this.reviveTime = this.getReviveTimeForLv(this.curLevel);
-        this.juqiExp = this.getJuqiExpForLv(this.curLevel);
+        this.reviveTime = this._cardConf.getReviveTimeForLv(this.curLevel);
+        this.juqiExp = this._cardConf.getJuqiExpForLv(this.curLevel);
     }
 });
 
