@@ -12,18 +12,6 @@ var Window_CardDetail = cc.CCBLayer.extend({
     onLoadCCB: function() {
         "use strict";
         cc.log("Window_CardDetail loaded --- ccbi");
-    },
-            
-    onCardClick: function() {
-        gMainScene.switchCCBLayer(UI.CARD_MANAGER_ID);
-    },
-            
-    onPantaoClick: function() {
-
-    },
-            
-    onHuanhundanClick: function() {
-
     }
 });
 

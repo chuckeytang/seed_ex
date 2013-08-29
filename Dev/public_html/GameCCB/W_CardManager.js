@@ -12,14 +12,6 @@ var Window_CardManager = cc.CCBLayer.extend({
     onLoadCCB: function() {
         "use strict";
         cc.log("Window_CardManager loaded --- ccbi");
-    },
-            
-    onSmallMapClick: function() {
-        gMainScene.switchCCBLayer(UI.SMALL_MAP);
-    },
-            
-    onBagClick: function() {
-        gMainScene.switchCCBLayer(UI.PLAYER_BAG_ID);
     }
 });
 

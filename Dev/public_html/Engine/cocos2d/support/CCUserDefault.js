@@ -232,19 +232,6 @@ cc.UserDefault = cc.Class.extend(/** @lends cc.UserDefault# */{
         if (this._db) {
             this._db.setItem(key, value);
         }
-    },
-      
-    /** chuckeytang
-     * purge a shared instance of the UserDefault
-     * @function
-     * @return {cc.UserDefault|}
-     */      
-    purgeInstanceUserDefault: function () {
-        if (cc.hasOwnProperty("Browser")) { //TODO: clear() is not implemented in JSB
-            if (this._db) {
-                this._db.clear();
-            }
-        }
     }
 });
 
@@ -260,6 +247,19 @@ cc.UserDefault.getInstance = function () {
     }
 
     return this._sUserDefault;
+};
+
+/**
+ * purge a shared instance of the UserDefault
+ * @function
+ * @return {cc.UserDefault|}
+ */
+cc.UserDefault.purgeInstanceUserDefault = function () {
+    if (cc.hasOwnProperty("Browser")) { //TODO: clear() is not implemented in JSB
+        if (this._db) {
+            this._db.clear();
+        }
+    }
 };
 
 cc.UserDefault._sUserDefault = null;

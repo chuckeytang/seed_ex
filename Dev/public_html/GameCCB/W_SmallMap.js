@@ -24,13 +24,6 @@ var Window_SmallMap = cc.CCBLayer.extend({
         this.nodeContainer = new PreBattleCandidateSVContainer;
         this.nodeContainer.InitWithScrollView(this.scroll_road_node,cc.size(0, 10), new cc.Color4B(255,255,255,0));
         this.nodeContainer.AddItem(globalUITool.CloneNodeGraph(this.nodeContainer.GetController().start_node));
-    },
-            
-    onCardClick: function() {
-        gMainScene.switchCCBLayer(UI.CARD_MANAGER_ID);
-    },
-            
-    onBigMapClick: function() {
     }
 });
 

@@ -311,7 +311,7 @@
 										<string>Block</string>
 										<key>value</key>
 										<array>
-											<string>onFightClick</string>
+											<string>onUseClick</string>
 											<integer>1</integer>
 										</array>
 									</dict>
@@ -612,8 +612,6 @@
 						<string>999</string>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
