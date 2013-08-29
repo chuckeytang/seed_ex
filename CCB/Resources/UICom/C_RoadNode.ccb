@@ -37,9 +37,9 @@
 						<key>displayName</key>
 						<string>CCBFile</string>
 						<key>memberVarAssignmentName</key>
-						<string></string>
+						<string>card</string>
 						<key>memberVarAssignmentType</key>
-						<integer>0</integer>
+						<integer>1</integer>
 						<key>properties</key>
 						<array>
 							<dict>
@@ -155,9 +155,9 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1</real>
-							<real>1</real>
-							<false/>
+							<real>2</real>
+							<real>2</real>
+							<true/>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -177,7 +177,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>UI/Icon/img_hunli.png</string>
+							<string>UI/Icon/img_hun.png</string>
 						</array>
 					</dict>
 				</array>
@@ -227,9 +227,9 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1</real>
-							<real>1</real>
-							<false/>
+							<real>2</real>
+							<real>2</real>
+							<true/>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -249,12 +249,10 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>UI/Icon/img_hunli.png</string>
+							<string>UI/Icon/img_hun.png</string>
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>baseClass</key>
@@ -301,9 +299,9 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1</real>
-							<real>1</real>
-							<false/>
+							<real>2</real>
+							<real>2</real>
+							<true/>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -323,7 +321,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>UI/Icon/img_hunli.png</string>
+							<string>UI/Icon/img_hun.png</string>
 						</array>
 					</dict>
 				</array>

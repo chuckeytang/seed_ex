@@ -30,7 +30,67 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
+				<string>Bg</string>
+				<key>memberVarAssignmentName</key>
+				<string>bg</string>
+				<key>memberVarAssignmentType</key>
+				<integer>1</integer>
+				<key>properties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>anchorPoint</string>
+						<key>type</key>
+						<string>Point</string>
+						<key>value</key>
+						<array>
+							<real>0.5</real>
+							<real>0.5</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>scale</string>
+						<key>type</key>
+						<string>ScaleLock</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<false/>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>ignoreAnchorPointForPosition</string>
+						<key>type</key>
+						<string>Check</string>
+						<key>value</key>
+						<false/>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>displayFrame</string>
+						<key>type</key>
+						<string>SpriteFrame</string>
+						<key>value</key>
+						<array>
+							<string></string>
+							<string>UI/Icon/img_cell_black_bg.png</string>
+						</array>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>baseClass</key>
 				<string>CCSprite</string>
+				<key>children</key>
+				<array/>
+				<key>customClass</key>
+				<string></string>
+				<key>displayName</key>
+				<string>Content</string>
 				<key>memberVarAssignmentName</key>
 				<string>content</string>
 				<key>memberVarAssignmentType</key>
@@ -55,8 +115,8 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>0.69999998807907104</real>
-							<real>0.69999998807907104</real>
+							<real>1</real>
+							<real>1</real>
 							<true/>
 							<integer>0</integer>
 						</array>
@@ -97,9 +157,9 @@
 						<key>displayName</key>
 						<string>CCMenuItemImage</string>
 						<key>memberVarAssignmentName</key>
-						<string></string>
+						<string>frame</string>
 						<key>memberVarAssignmentType</key>
-						<integer>0</integer>
+						<integer>1</integer>
 						<key>properties</key>
 						<array>
 							<dict>
@@ -120,8 +180,8 @@
 								<string>ScaleLock</string>
 								<key>value</key>
 								<array>
-									<real>0.69999998807907104</real>
-									<real>0.69999998807907104</real>
+									<real>1</real>
+									<real>1</real>
 									<true/>
 									<integer>0</integer>
 								</array>
@@ -161,7 +221,7 @@
 								<key>value</key>
 								<array>
 									<string></string>
-									<string>UI/Icon/img_yellow_frame.png</string>
+									<string>UI/Icon/img_white_frame.png</string>
 								</array>
 							</dict>
 							<dict>
@@ -172,7 +232,7 @@
 								<key>value</key>
 								<array>
 									<string></string>
-									<string>UI/Icon/img_yellow_frame.png</string>
+									<string>UI/Icon/img_white_frame.png</string>
 								</array>
 							</dict>
 							<dict>
@@ -183,16 +243,18 @@
 								<key>value</key>
 								<array>
 									<string></string>
-									<string>UI/Icon/img_yellow_frame.png</string>
+									<string>UI/Icon/img_white_frame.png</string>
 								</array>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 				</array>
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>CCMenu</string>
+				<string>Frame</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>

@@ -94,9 +94,9 @@
 								<key>displayName</key>
 								<string>CardBg</string>
 								<key>memberVarAssignmentName</key>
-								<string></string>
+								<string>bg</string>
 								<key>memberVarAssignmentType</key>
-								<integer>0</integer>
+								<integer>1</integer>
 								<key>properties</key>
 								<array>
 									<dict>
@@ -360,8 +360,8 @@
 											<integer>4</integer>
 											<key>value</key>
 											<array>
-												<real>0.60000002384185791</real>
-												<real>0.60000002384185791</real>
+												<real>1</real>
+												<real>1</real>
 											</array>
 										</dict>
 										<dict>
@@ -499,18 +499,6 @@
 						<array>
 							<dict>
 								<key>name</key>
-								<string>position</string>
-								<key>type</key>
-								<string>Position</string>
-								<key>value</key>
-								<array>
-									<real>5</real>
-									<real>10</real>
-									<integer>0</integer>
-								</array>
-							</dict>
-							<dict>
-								<key>name</key>
 								<string>anchorPoint</string>
 								<key>type</key>
 								<string>Point</string>
@@ -532,9 +520,9 @@
 								<string>ScaleLock</string>
 								<key>value</key>
 								<array>
-									<real>0.60000002384185791</real>
-									<real>0.60000002384185791</real>
-									<false/>
+									<real>1</real>
+									<real>1</real>
+									<true/>
 									<integer>0</integer>
 								</array>
 							</dict>
@@ -554,7 +542,7 @@
 								<key>value</key>
 								<array>
 									<string></string>
-									<string>UI/Card/card_char_sunwukong_1.png</string>
+									<string>UI/Card/card_sunwukong.png</string>
 								</array>
 							</dict>
 							<dict>
@@ -568,8 +556,6 @@
 								<integer>255</integer>
 							</dict>
 						</array>
-						<key>seqExpanded</key>
-						<true/>
 					</dict>
 				</array>
 				<key>customClass</key>
