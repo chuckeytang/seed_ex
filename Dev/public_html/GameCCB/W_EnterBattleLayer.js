@@ -39,7 +39,7 @@ var Window_EnterBattleLayer = cc.CCBLayer.extend({
     },
             
     onFightClick: function() {
-        gMainScene.switchCCBLayer(UI.FIGHT_LAYER_ID);
+        gMainScene.switchCCBLayer(UI.WINDOW_FIGHT_LAYER_ID);
     }
 });
 

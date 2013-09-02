@@ -1,14 +1,3 @@
-var Widget_CardList1 = cc.CCBLayer.extend({
-    onLoadCCB: function () {
-        cc.log("Widget_CardList1-----loadccb");
-    },
-
-    onCardClick: function () {
-        cc.log("card click");
-    }
-
-});
-
 var Widget_CardList2 = cc.CCBLayer.extend({
     onLoadCCB: function () {
         cc.log("Widget_CardList2-----loadccb");
@@ -37,10 +26,10 @@ var Widget_FightBton = cc.CCBLayer.extend({
     }
     ,
     onFightClick: function(){
-        if (gMainScene.getCurCCBLayer() instanceof Window_EnterBattleLayer) {
+        if (gMainScene.getCurCCBController() instanceof Window_EnterBattleLayer) {
         }
-        else if (gMainScene.getCurCCBLayer() instanceof Window_SmallMap) {
-            gMainScene.switchCCBLayer(UI.ENTER_BATTLE_LAYER_ID);
+        else if (gMainScene.getCurCCBController() instanceof Window_SmallMap) {
+            gMainScene.switchCCBLayer(UI.WINDOW_ENTER_BATTLE_LAYER_ID);
         }
     }
 });
@@ -48,28 +37,51 @@ var Widget_FightBton = cc.CCBLayer.extend({
 var Widget_FightCard = cc.CCBLayer.extend({
     onLoadCCB: function () {
         cc.log("Widget_FightCard-----loadccb");
+        this.setUpdateEnabled(true);
+    },
+    clone: function() {
+        var clone = new this.constructor;
+        for (var prop in this) {
+            if(clone[prop.toString()] === undefined) {
+                clone[prop.toString()] = this[prop.toString()];
+            }
+        }
     }
     ,
     onCardClick: function(){
-        cc.log("card click");
+        cc.log("FightCard click");
+        if(gMainScene.getCurCCBController() instanceof Window_SmallMap) {
+            this._switchMenuID = UI.WINDOW_ENTER_BATTLE_LAYER_ID;
+        }
+    },
+
+    onUpdate: function(dt) {
+        if(NotNull(this._switchMenuID)) {
+            gMainScene.switchCCBLayer(this._switchMenuID);
+            this._switchMenuID = null;
+        }
     }
 });
 
 var Widget_GuideBar = cc.CCBLayer.extend({
     onLoadCCB: function () {
         cc.log("Widget_GuideBar-----loadccb");
+        this.setUpdateEnabled(true);
     },
 
     onDuiwuClick: function () {
         cc.log("Duiwu click");
+        this._switchMenuID = UI.WINDOW_CARD_MANAGER_ID;
     },
 
     onQujingClick: function () {
         cc.log("Qujing click");
+        this._switchMenuID = UI.WINDOW_BIG_MAP;
     },
 
     onJubaoClick: function () {
         cc.log("Jubao click");
+        this._switchMenuID = UI.WINDOW_FRAG_COMBINE_ID;
     },
 
     onJieyuanClick: function () {
@@ -117,8 +129,8 @@ var Widget_NormalCard = cc.CCBLayer.extend({
     },
 
     onCardClick: function () {
-        if (gMainScene.getCurCCBLayer() instanceof Window_CardManager) {
-            gMainScene.switchCCBLayer(UI.CARD_DETAIL_ID);
+        if (gMainScene.getCurCCBController() instanceof Window_CardManager) {
+            gMainScene.switchCCBLayer(UI.WINDOW_CARD_DETAIL_ID);
         }
     }
 
@@ -143,9 +155,13 @@ var Widget_Road = cc.CCBLayer.extend({
     },
 
     onCardClick: function () {
-        if (gMainScene.getCurCCBLayer() instanceof Window_CardManager) {
-            gMainScene.switchCCBLayer(UI.CARD_DETAIL_ID);
+        if (gMainScene.getCurCCBController() instanceof Window_CardManager) {
+            gMainScene.switchCCBLayer(UI.WINDOW_CARD_DETAIL_ID);
         }
+    },
+
+    getRoadSize: function() {
+        return new cc.Size(this.road.getContentSize().width*this.road_node.getScale(), this.item.getContentSize().height*this.road_node.getScale());
     }
 
 });
@@ -156,13 +172,24 @@ var Widget_SmallMap = cc.CCBLayer.extend({
     },
             
     onCardClick: function() {
-        gMainScene.switchCCBLayer(UI.ENTER_BATTLE_LAYER_ID);
+        gMainScene.switchCCBLayer(UI.WINDOW_ENTER_BATTLE_LAYER_ID);
     }
 });
 
 var Widget_SkillList = cc.CCBLayer.extend({
     onLoadCCB: function () {
         cc.log("Widget_SkillList-----loadccb");
+    }
+});
+
+var Widget_LevelNode = cc.CCBLayer.extend({
+    onLoadCCB: function () {
+        cc.log("Widget_LevelNode-----loadccb");
+    },
+
+    showHunli: function(index, visible) {
+        if(index <= 0 || index > conf.MAX_LEVEL_HUNLI_COLLECT) return;
+        this['hun'+index].setVisible(visible);
     }
 });
 

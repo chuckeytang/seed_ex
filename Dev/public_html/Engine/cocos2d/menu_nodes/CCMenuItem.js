@@ -183,15 +183,15 @@ cc.MenuItem = cc.NodeRGBA.extend(/** @lends cc.MenuItem# */{
     /**
      * chuckey tang
      */
-    getListener:function () {
-        return this._listener;
+    getTarget:function () {
+        return this._target;
     },
     
     /**
      * chuckey tang
      */
-    getSelector:function () {
-        return this._selector;
+    getCallback:function () {
+        return this._callback;
     },
 
    /**

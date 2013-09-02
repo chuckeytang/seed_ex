@@ -7,6 +7,7 @@
  */
 
 var UICloneTool = cc.Class.extend({
+    _cloneCCBStack: new Array(),
     ctor : function () {
        // this._super();
         this.init();
@@ -74,14 +75,8 @@ var UICloneTool = cc.Class.extend({
 
      CloneMenu : function(src) {
         "use strict";
-        var desChilds = [];
-        var childs = src.getChildren();
-        for(var i=0; i<childs.length; ++i) {
-           var menuItem = this.CloneMenuItemImage(childs[i]);
-            desChilds.push(menuItem);
-        }
         var des = new cc.Menu;
-        des.initWithArray(desChilds);
+        des.initWithArray(null);
         des.setPosition(src.getPosition());
         des.setAnchorPoint(src.getAnchorPoint());
         des.setScale(src.getScale());
@@ -135,7 +130,7 @@ var UICloneTool = cc.Class.extend({
         des.setTag(src.getTag());
         des.setEnabled(true);
         des.setZOrder(src.getZOrder());
-        des.setTarget(src.getSelector(), src.getListener());
+        des.setTarget(src.getCallback(), src.getTarget());
         return des;
     },
 
@@ -147,17 +142,17 @@ var UICloneTool = cc.Class.extend({
     CloneNodeGraph : function(node) {
         "use strict";
         var des_node = null;
-        if(node instanceof cc.Sprite) {
-            des_node = this.CloneSprite(node);
-        }
-        else if(node instanceof cc.MenuItemImage) {
-            des_node = this.CloneMenuItemImage(node);
+        if(node instanceof cc.LabelTTF) {
+            des_node = this.CloneLableTTF(node);
         }
         else if(node instanceof cc.LabelBMFont) {
             des_node = this.CloneLabelBMFont(node);
         }
-        else if(node instanceof cc.LabelTTF) {
-            des_node = this.CloneLableTTF(node);
+        else if(node instanceof cc.Sprite) {
+            des_node = this.CloneSprite(node);
+        }
+        else if(node instanceof cc.MenuItemImage) {
+            des_node = this.CloneMenuItemImage(node);
         }
         else if(node instanceof cc.Menu) {
             des_node = this.CloneMenu(node);
@@ -169,16 +164,16 @@ var UICloneTool = cc.Class.extend({
             cc.log("this type can not clone");
         }
 
-        if (des_node && node.getChildrenCount())
-        {
-              var childrens = node.getChildren();
-              for(var i=0; i<childrens.length; ++i) {
-                  var child_node =  this.CloneNodeGraph(childrens[i]);
-                  if(child_node)   {
-                      des_node.addChild(child_node);
-                  }
-              }
-        }
+            if (des_node && node.getChildrenCount())
+            {
+                var childrens = node.getChildren();
+                for(var i=0; i<childrens.length; ++i) {
+                    var child_node =  this.CloneNodeGraph(childrens[i]);
+                    if(child_node)   {
+                        des_node.addChild(child_node);
+                    }
+                }
+            }
 
         return des_node;
     },

@@ -1,5 +1,8 @@
 var conf = conf || {};
 
+conf.MAX_LEVEL_HUNLI_COLLECT = 3;
+conf.NULL_CONF_VALUE = 'NA';
+
 conf.MAP_PARAM = 'map';
 conf.MONSTER_CARD_PARAM = 'monster_card'; 
 
@@ -625,7 +628,7 @@ LevelConf = cc.Class.extend({
         }
     }
     ,
-    convertToAbsoluteLevelID: function() {
+    getAbsoluteLevelID: function() {
         return this._absoluteLevelID;
     }
     ,
@@ -765,14 +768,14 @@ MapConf = cc.Class.extend({
         var zoneID = 0;
         var levelInfoList = new Array();
         for(var i=1; i<rawMapInfo.length; i++) {
-            if(rawMapInfo[i][this._colMapping[this.ZONE_ID]] === zoneID) {
+            if(rawMapInfo[i][this._colMapping[MapConf.ZONE_ID]] === zoneID) {
                 levelInfoList.push(rawMapInfo[i-1]);
                 levelCnt++;
             }
-            else if(rawMapInfo[i][this._colMapping[this.ZONE_ID]] > zoneID) {
+            else if(rawMapInfo[i][this._colMapping[MapConf.ZONE_ID]] > zoneID) {
                 this._zoneList[zoneID] = new ZoneConf(zoneID, levelCnt, levelInfoList.clone(), this._colMapping);
                 levelInfoList.clear();
-                zoneID = rawMapInfo[i][this._colMapping[this.ZONE_ID]];
+                zoneID = rawMapInfo[i][this._colMapping[MapConf.ZONE_ID]];
                 i--;
             }
         }
@@ -860,7 +863,7 @@ __Param = cc.Class.extend({
             this.fabaoList[this._commonFabaoConf.getFabaoID(i)] = new OneFabaoConf(this._commonFabaoConf.getFabaoID(i));
         }
 
-        this._mapConf = new MapConf();
+        this.mapConf = new MapConf();
     }
 });
 

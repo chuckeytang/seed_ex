@@ -70,12 +70,10 @@ cc.CCBLayerCache.getCCBLayer = function (filename) {
 
     var layer = cc.CCBLayerCache._ccb_map[filename];
     if (IsNull(layer)) {
-        cc.log("cc.BuilderReader.load:[" + filename + "]");
         layer = cc.BuilderReader.load(filename);
         cc.CCBLayerCache._ccb_map[filename] = layer;
 
         layer.controller["ccb_name"] = filename;
-//        layer.retain();
     }
     return layer;
 };
@@ -108,6 +106,7 @@ cc.Node.prototype.addCCBChild = function (ccblayer_or_name, zorder, tag) {
 
 // CCBLayer
 cc.CCBLayer = cc.Layer.extend({
+    _switchMenuID: null,
     is_ccb_layer: true,
     ccb_name: "",
     onDidLoadFromCCB: function () {
@@ -116,6 +115,14 @@ cc.CCBLayer = cc.Layer.extend({
             this.onLoadCCB();
         this.setUpdateEnabled(true);
     },
+
+    onUpdate: function(dt) {
+        if(NotNull(this._switchMenuID)) {
+            gMainScene.switchCCBLayer(this._switchMenuID);
+            this._switchMenuID = null;
+        }
+    },
+
     callOnShow: function () {
         "use strict";
         if (NotNull(this.onShow))
@@ -239,6 +246,26 @@ cc.CCBLayer = cc.Layer.extend({
     setTouchEnabled: function (enable) {
         if (this.rootNode) {
             this.rootNode.setTouchEnabled(enable);
+
+            if(enable) {
+                if(this.onTouchesBegan) {
+                    this.rootNode.onTouchesBegan = function(touches, event) {
+                        return this.controller.onTouchesBegan(touches, event);
+                    };
+                }
+
+                if(this.onTouchesMoved) {
+                    this.rootNode.onTouchesMoved = function(touches, event) {
+                        return this.controller.onTouchesMoved(touches, event);
+                    };
+                }
+
+                if(this.onTouchesEnded) {
+                    this.rootNode.onTouchesEnded = function(touches, event) {
+                        return this.controller.onTouchesEnded(touches, event);
+                    };
+                }
+            }
         }
     }/*,
 
@@ -296,6 +323,13 @@ cc.Scene.prototype.clearAllCCBLayer = function () {
     "use strict";
     this.removeAllChildren(false);
     this._ui_stack = [];
+};
+
+cc.Scene.prototype.createWidget = function(filename) {
+    "use strict";
+    var layer = cc.BuilderReader.load(filename);
+    layer.controller["ccb_name"] = filename;
+    return layer;
 };
 
 cc.Scene.prototype.pushCCBLayer = function (ccblayer_or_name, callback, withIntro) {
@@ -366,7 +400,12 @@ cc.Scene.prototype.popCCBLayer = function (callback, withOutro) {
 
 cc.Scene.prototype.getCurCCBLayer = function() {
     "use strict";
-    return this._ui_stack[this._ui_stack.length - 1];
+    return this._ui_stack.tail();
+};
+
+cc.Scene.prototype.getCurCCBController = function() {
+    "use strict";
+    return this.getCurCCBLayer().controller;
 };
 
 cc.Scene.prototype.showCCBLayer = function (ccblayer_or_name, callback) {
@@ -432,6 +471,13 @@ cc.Class.prototype.getClass = function() {
     var results = (funcNameRegex).exec((this).constructor.toString());
     return (results && results.length > 1) ? results[1] : "";
 };
+
+cc.Class.prototype.toValue = function(string) {
+    if(string === '')
+        return 0;
+
+    return parseFloat(string);
+}
 
 // LabelTTF
 cc.LabelTTF.prototype.frame_couter = 0;

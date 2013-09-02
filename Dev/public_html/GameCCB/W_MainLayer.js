@@ -15,7 +15,7 @@ var Window_MainLayer = cc.CCBLayer.extend({
     },
             
     onStartClick: function() {
-        gMainScene.switchCCBLayer(UI.SMALL_MAP);
+        gMainScene.switchCCBLayer(UI.WINDOW_BIG_MAP);
     }
 });
 

@@ -20,22 +20,26 @@
            'Logic/Card.js',
            'Logic/Prop.js',
            'Logic/Map.js',
-           'Logic/Player.js',
-           'UICom/UIBase/ScrollView.js',
-           'UICom/UIBase/UIDefine.js',
+           'Logic/Monster.js',
+            'Logic/Player.js',
+           'UICom/UIBase/MoveView.js',
+            'UICom/UIBase/ScrollView.js',
+            'UICom/UIBase/UIDefine.js',
            'UICom/UIBase/Utils.js',
            'UICom/Widgets.js',
-           
-           'GameCCB/W_MainLayer.js',
-           'GameCCB/W_FightLayer.js',
-           'GameCCB/W_PlayerBag.js',
-           'GameCCB/W_EnterBattleLayer.js',
-           'GameCCB/W_CardManager.js',
-           'GameCCB/W_CardDetail.js',
+           'Dialog/Dialog.js',
+
+           'GameCCB/W_BigMap.js',
+            'GameCCB/W_CardDetail.js',
+            'GameCCB/W_CardManager.js',
+            'GameCCB/W_EnterBattleLayer.js',
+            'GameCCB/W_FightLayer.js',
+            'GameCCB/W_FragCombine.js',
+            'GameCCB/W_MainLayer.js',
            'GameCCB/W_SmallMap.js',
            
            'resources-html5.js',
-           'boot2-html5.js',
+           'boot2-html5.js'
            
             ]
 

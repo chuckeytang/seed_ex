@@ -27,17 +27,17 @@ cd.Card = cc.Class.extend({
         this.curLevel = db.getStringForKey(this.type+'_'+this.curLevel.toString());
         this.updateMyData();
     }
-    ,
-    updateMyData: function() {
-        this.maxHp = this._cardConf.getHpForLv(this.curLevel);
-        this.attack = this._cardConf.getAttackForLv(this.curLevel);
-        this.criticalRat = this._cardConf.getCriticAttackForLv(this.curLevel);
-        this.defense = this._cardConf.getDefenseForLv(this.curLevel);
-        this.juqi = this._cardConf.getJuqiForLv(this.curLevel);
-        this.fanshiRat = this._cardConf.getFanshiRatForLv(this.curLevel);
-        this.fanshi = this.attack*this.fanshiRat;
-    }
 });
+
+cd.Card.prototype.updateMyData = function() {
+    this.maxHp = this._cardConf.getHpForLv(this.curLevel);
+    this.attack = this._cardConf.getAttackForLv(this.curLevel);
+    this.criticalRat = this._cardConf.getCriticAttackForLv(this.curLevel);
+    this.defense = this._cardConf.getDefenseForLv(this.curLevel);
+    this.juqi = this._cardConf.getJuqiForLv(this.curLevel);
+    this.fanshiRat = this._cardConf.getFanshiRatForLv(this.curLevel);
+    this.fanshi = this.attack*this.fanshiRat;
+}
 
 cd.PlayerCard = cd.Card.extend({
     lvExp: 0,
@@ -67,9 +67,10 @@ cd.PlayerCard = cd.Card.extend({
     // logic function
     gainExp: function() {
         
-    }
-    ,
-    updateMyData: function() {
+    },
+
+    updateMyData:function() {
+        //cd.Card.prototype.updateMyData.call(this);
         this._super();
         this.lvExp = this._cardConf.getExpForLv(this.curLevel);
         this.recoverHPSpeed = this._cardConf.getRecoverHPSpeedForLv(this.curLevel);
