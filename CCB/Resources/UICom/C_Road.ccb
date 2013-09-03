@@ -95,9 +95,9 @@
 						<key>customClass</key>
 						<string></string>
 						<key>displayName</key>
-						<string>Item</string>
+						<string>Lock</string>
 						<key>memberVarAssignmentName</key>
-						<string>item</string>
+						<string>lock</string>
 						<key>memberVarAssignmentType</key>
 						<integer>1</integer>
 						<key>properties</key>
@@ -158,6 +158,8 @@
 								</array>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 				</array>
 				<key>customClass</key>
@@ -188,8 +190,8 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>0.30000001192092896</real>
-							<real>0.30000001192092896</real>
+							<real>0.40000000596046448</real>
+							<real>0.40000000596046448</real>
 							<true/>
 							<integer>0</integer>
 						</array>

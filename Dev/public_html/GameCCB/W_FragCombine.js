@@ -17,7 +17,7 @@ var Window_FragCombine = cc.CCBLayer.extend({
         cc.log("Window_FragCombine loaded --- ccbi");
         this.propListContainer = new PropListSVContainer;
         this.propListContainer.InitWithScrollView(this.prop_list,cc.size(0, 10), new cc.Color4B(255,255,255,0));
-        this.propListContainer.AddItem(globalUITool.CloneNodeGraph(this.propListContainer.GetController().start_item));
+        this.propListContainer.addItem(globalUITool.CloneNodeGraph(this.propListContainer.getController().start_item));
     }
 });
 

@@ -11,3 +11,15 @@ C_LingXuzi,凌虚子,1,Xian,Xian,Xian,1,4,12,20,40
 C_HeiXiongjing,黑熊精,1,Mo,Xian,Sha,1,4,12,20,40
 C_HuXianfeng,虎先锋,1,Sha,Xian,Sha,1,4,12,20,40
 C_HuangFengguai,黄风怪,1,Mo,Fo,Xian,1,4,12,20,40
+C_PutongAttack,普通攻击,NA,All,All,All,NA,NA,NA,NA,NA
+C_PutongRecover,普通回复,NA,All,All,All,NA,NA,NA,NA,NA
+C_PutongAgile,普通敏捷,NA,All,All,All,NA,NA,NA,NA,NA
+C_PutongDefense,普通防御,NA,All,All,All,NA,NA,NA,NA,NA
+C_JingyingAttack,精英攻击,NA,All,All,All,NA,NA,NA,NA,NA
+C_JingyingRecover,精英回复,NA,All,All,All,NA,NA,NA,NA,NA
+C_JingyingAgile,精英敏捷,NA,All,All,All,NA,NA,NA,NA,NA
+C_JingyingDefense,精英防御,NA,All,All,All,NA,NA,NA,NA,NA
+C_BossAttack,Boss攻击,NA,All,All,All,NA,NA,NA,NA,NA
+C_BossRecover,Boss回复,NA,All,All,All,NA,NA,NA,NA,NA
+C_BossAgile,Boss敏捷,NA,All,All,All,NA,NA,NA,NA,NA
+C_BossDefense,Boss防御,NA,All,All,All,NA,NA,NA,NA,NA

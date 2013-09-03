@@ -6,7 +6,17 @@ conf.NULL_CONF_VALUE = 'NA';
 conf.MAP_PARAM = 'map';
 conf.MONSTER_CARD_PARAM = 'monster_card'; 
 
+// card background color
+conf.PUTONG_MONSTER_BG = 'card_Ubg_green2.png';
+conf.JINGYING_MONSTER_BG = 'card_Ubg_blue2.png';
+conf.BOSS_MONSTER_BG = 'card_Ubg_purple2.png';
 
+// level type
+conf.LEVEL_GUIDE = 'guide';
+conf.LEVEL_NORMAL = 'normal';
+conf.LEVEL_LOCKED = 'locked';
+
+// card id
 conf.TANGSANZANG = 'C_TangSangzang';
 conf.SUNWUKONG = 'C_SunWukong';
 conf.ZHUBAJIE = 'C_ZhuBajie';
@@ -457,6 +467,9 @@ OneMonsterConf = cc.Class.extend({
     ,
     getFabaoTaken1: function() {
         
+    },
+    getMonsterType: function() {
+        return this._monsterCardInfo.cardID;
     }
     ,
     getHpForLv: function(level) {
@@ -583,6 +596,10 @@ LevelConf = cc.Class.extend({
     _topLevel: null,
     _bottomLevel: null,
     ctor: function(levelInfo, colMapping){
+        this._1stFightMonList = new Array(),
+        this._2ndFightMonList = new Array(),
+        this._3rdFightMonList = new Array(),
+
         this._absoluteLevelID = levelInfo[colMapping[MapConf.ID]];
         this._belongZone = levelInfo[colMapping[MapConf.ZONE_ID]];
         this._thisLevelID = levelInfo[colMapping[MapConf.LEVEL_ID]];
@@ -607,24 +624,39 @@ LevelConf = cc.Class.extend({
         this._bottomLevel = levelInfo[colMapping[MapConf.BRANCH_BOTTOM]];
         
         var fight1Mons = levelInfo[colMapping[MapConf.FIGHT_MON1]].split('|');
-        for(var i=0; i<fight1Mons.length; i++) {
-            var monParams = fight1Mons[i].split('_');
-            var monsterInfo = conf.Param.monsterList[monParams[0]];
-            this._1stFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[1], monParams[2]]);
+        if(fight1Mons[0] !== 'NA') {
+            for(var i=0; i<fight1Mons.length; i++) {
+                var monParams = fight1Mons[i].split('_');
+                var monsterInfo = conf.Param.monsterList[monParams[0]+'_'+monParams[1]];
+                if(IsNull(monsterInfo)) {
+                    cc.Assert(0,'wrong monster id');
+                }
+                this._1stFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]]);
+            }
         }
 
         var fight2Mons = levelInfo[colMapping[MapConf.FIGHT_MON2]].split('|');
-        for(var i=0; i<fight2Mons.length; i++) {
-            var monParams = fight2Mons[i].split('_');
-            var monsterInfo = conf.Param.monsterList[monParams[0]];
-            this._2ndFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[1], monParams[2]]);
+        if(fight2Mons[0] !== 'NA') {
+            for(var i=0; i<fight2Mons.length; i++) {
+                var monParams = fight2Mons[i].split('_');
+                var monsterInfo = conf.Param.monsterList[monParams[0]+'_'+monParams[1]];
+                if(IsNull(monsterInfo)) {
+                    cc.Assert(0,'wrong monster id');
+                }
+                this._2ndFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]]);
+            }
         }
 
         var fight3Mons = levelInfo[colMapping[MapConf.FIGHT_MON3]].split('|');
-        for(var i=0; i<fight3Mons.length; i++) {
-            var monParams = fight3Mons[i].split('_');
-            var monsterInfo = conf.Param.monsterList[monParams[0]];
-            this._3rdFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[1], monParams[2]]);
+        if(fight3Mons[0] !== 'NA') {
+            for(var i=0; i<fight3Mons.length; i++) {
+                var monParams = fight3Mons[i].split('_');
+                var monsterInfo = conf.Param.monsterList[monParams[0]+'_'+monParams[1]];
+                if(IsNull(monsterInfo)) {
+                    cc.Assert(0,'wrong monster id');
+                }
+                this._3rdFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]]);
+            }
         }
     }
     ,
@@ -728,16 +760,19 @@ LevelConf = cc.Class.extend({
         return this._3rdFightMonList;
     }
 });
+LevelConf.MONSTER_ID = 0;
+LevelConf.MONSTER_INFO = 1;
+LevelConf.MONSTER_LEVEL = 2;
+LevelConf.MONSTER_STAR = 3;
 
 ZoneConf = cc.Class.extend({
     _zoneID: null,
-    _levelCnt: null,
-    _LevelList: new Array(),
-    ctor: function(_zoneID, _levelCnt, rawLevelInfoList, colMapping) {
-        this._zoneID = _zoneID;
-        this._levelCnt = _levelCnt;
+    _levelList: null,
+    ctor: function(zoneID, rawLevelInfoList, colMapping) {
+        this._zoneID = zoneID;
+        this._levelList = new Array();
         for(var i=0; i<rawLevelInfoList.length; i++) {
-            this._LevelList.push(new LevelConf(rawLevelInfoList[i], colMapping));
+            this._levelList.push(new LevelConf(rawLevelInfoList[i], colMapping));
         }
     }
     ,
@@ -746,11 +781,11 @@ ZoneConf = cc.Class.extend({
     }
     ,
     getLevelCnt: function() {
-        return this._levelCnt;
+        return this._levelList.length;
     }
     ,
     getLevelList: function() {
-        return this._LevelList;
+        return this._levelList;
     }
 });
 
@@ -764,26 +799,28 @@ MapConf = cc.Class.extend({
         }
         
         // init zone info
-        var levelCnt = 0;
         var zoneID = 0;
         var levelInfoList = new Array();
         for(var i=1; i<rawMapInfo.length; i++) {
             if(rawMapInfo[i][this._colMapping[MapConf.ZONE_ID]] === zoneID) {
-                levelInfoList.push(rawMapInfo[i-1]);
-                levelCnt++;
+                levelInfoList.push(rawMapInfo[i]);
             }
             else if(rawMapInfo[i][this._colMapping[MapConf.ZONE_ID]] > zoneID) {
-                this._zoneList[zoneID] = new ZoneConf(zoneID, levelCnt, levelInfoList.clone(), this._colMapping);
+                this._zoneList[zoneID] = new ZoneConf(zoneID, levelInfoList.clone(), this._colMapping);
                 levelInfoList.clear();
                 zoneID = rawMapInfo[i][this._colMapping[MapConf.ZONE_ID]];
                 i--;
             }
         }
-        this._zoneList[zoneID] = new ZoneConf(zoneID, levelCnt, levelInfoList.clone(), this._colMapping);
+        this._zoneList[zoneID] = new ZoneConf(zoneID, levelInfoList.clone(), this._colMapping);
     }
     ,
     getZoneInfo: function(zoneID) {
         return this._zoneList[zoneID];
+    },
+
+    getZones: function() {
+        return this._zoneList;
     }
     ,
     convertToAbsoluteLevel: function(zone, level) {

@@ -473,7 +473,7 @@ cc.Class.prototype.getClass = function() {
 };
 
 cc.Class.prototype.toValue = function(string) {
-    if(string === '')
+    if(IsNull(string) || string === '')
         return 0;
 
     return parseFloat(string);

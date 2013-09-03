@@ -50,7 +50,7 @@
 								<key>value</key>
 								<array>
 									<real>160</real>
-									<real>60</real>
+									<real>80</real>
 									<integer>0</integer>
 								</array>
 							</dict>
@@ -144,6 +144,18 @@
 						<array>
 							<dict>
 								<key>name</key>
+								<string>position</string>
+								<key>type</key>
+								<string>Position</string>
+								<key>value</key>
+								<array>
+									<real>-9</real>
+									<real>20</real>
+									<integer>0</integer>
+								</array>
+							</dict>
+							<dict>
+								<key>name</key>
 								<string>scale</string>
 								<key>type</key>
 								<string>ScaleLock</string>
@@ -164,6 +176,8 @@
 								<string>UICom/C_Road.ccb</string>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 				</array>
 				<key>customClass</key>
@@ -183,7 +197,7 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>182</real>
+							<real>199</real>
 							<real>60</real>
 							<integer>0</integer>
 						</array>
@@ -221,8 +235,6 @@
 						<false/>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

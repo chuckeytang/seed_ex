@@ -34,7 +34,7 @@ var ScrollViewContainer = cc.LayerColor.extend({
         scrollView.setContainer(this);
         this.setAnchorPoint(container.getAnchorPoint());
         this.setPosition(container.getPosition());
-        this.setContentSize(scrollView.getViewSize());
+        this.setContentSize(container.getContentSize());
         this.scollController = container.controller;
 
         this.div_size = div_size || cc.size(0,0);
@@ -46,29 +46,33 @@ var ScrollViewContainer = cc.LayerColor.extend({
             this.setOpacity(color4b.a);
         }
     },
-            
-    FillWithData: function(data) {
+
+    setViewSize: function(viewsize) {
+        this.scrollView.setContentSize(viewsize);
+    },
+
+    fillWithData: function(data) {
 
     },
 
-    GetController: function() {
+    getController: function() {
         return this.scollController;
     },
             
-    SetMenuCallback : function (callback) {
+    setMenuCallback : function (callback) {
         "use strict";
         this.menuCallBack = callback;
     },
 
-    ClearAllItem:function() {
+    clearAllItem:function() {
         "use strict";
         this.removeAllChildren();
         this.scrollItems.length = 0;
     },
 
-    AddItem : function(item) {
+    addItem : function(item) {
         "use strict";
-         if (this.IsContain(item)) {
+         if (this.isContain(item)) {
              cc.log("error : item -> " + item + " is exist");
              return ;
          }
@@ -78,12 +82,12 @@ var ScrollViewContainer = cc.LayerColor.extend({
         this.reLayout();
     },
 
-    InsertItemAt : function (item, index) {
+    insertItemAt : function (item, index) {
         "use strict";
          if(index < 0 || index > this.scrollItems.length)
             throw "the array out of bound";
 
-         if (this.IsContain(item)) {
+         if (this.isContain(item)) {
              cc.log("error : item -> " + item + " is exist");
              return ;
          }
@@ -93,9 +97,9 @@ var ScrollViewContainer = cc.LayerColor.extend({
          this.reLayout();
     },
 
-    RemoveItem : function(item) {
+    removeItem : function(item) {
         "use strict";
-        var index = this.GetItemIndex(item);
+        var index = this.getItemIndex(item);
         if(index < 0)
             return ;
 
@@ -104,7 +108,7 @@ var ScrollViewContainer = cc.LayerColor.extend({
         this.reLayout();
     },
 
-    IsContain : function(item) {
+    isContain : function(item) {
         "use strict";
         for (var i=0; i<this.scrollItems.length; ++i){
             if(item == this.scrollItems[i])
@@ -114,19 +118,19 @@ var ScrollViewContainer = cc.LayerColor.extend({
         return false;
     },
 
-    RemoveItemAt : function(index) {
+    removeItemAt : function(index) {
         "use strict";
 
         if(index < 0 || index >= this.scrollItems.length)
             throw "the array out of bound";
 
-        var item = this.GetIndexOf(index);
+        var item = this.getIndexOf(index);
         this.scrollItems.splice(index, 1);
         this.removeItemFromMe(item);
         this.reLayout();
     },
 
-    GetItemIndex:function(item) {
+    getItemIndex:function(item) {
         "use strict";
          for (var i=0; i<this.scrollItems.length; ++i){
             if(item ==this.scrollItems[i])
@@ -138,7 +142,7 @@ var ScrollViewContainer = cc.LayerColor.extend({
         return -1;
     },
 
-    GetIndexOf : function(index) {
+    getIndexOf : function(index) {
         "use strict";
 
          if(index < 0 || index >= this.scrollItems.length)
@@ -204,7 +208,7 @@ var ScrollViewContainer = cc.LayerColor.extend({
 
     destroy : function() {
         "use strict";
-        this.ClearAllItem();
+        this.clearAllItem();
         this.scrollView.removeFromParent();
         this.menuCallBack = null;
     },
@@ -221,18 +225,18 @@ var ScrollViewContainer = cc.LayerColor.extend({
         cc.Director.getInstance().getTouchDispatcher().removeDelegate(this);
     },
 
-    SetContentOffsetTo : function (offsetPt, animated) {
+    setContentOffsetTo : function (offsetPt, animated) {
         "use strict";
         this.scrollView.setContentOffset(offsetPt, animated);
 
     },
 
-    SetContentOffsetInDurationTo : function (offsetPt, duration) {
+    setContentOffsetInDurationTo : function (offsetPt, duration) {
         "use strict";
         this.scrollView.setContentOffsetInDuration(offsetPt, duration);
     },
 
-     SetContentOffsetBy : function (offsetPt, animated) {
+    SetContentOffsetBy : function (offsetPt, animated) {
         "use strict";
 
         var curOffset = this.scrollView.getContentOffset();
@@ -291,7 +295,7 @@ var ScrollViewContainer = cc.LayerColor.extend({
         return this.scrollView.minContainerOffset();
     },
 
-     onTouchBegan:function (touch, event) {
+    onTouchBegan:function (touch, event) {
 
       var size = this.scrollView.getViewSize();
       var pt = this.scrollView.convertTouchToNodeSpace(touch);

@@ -13,6 +13,7 @@ var CCBMainScene = cc.Scene.extend({
         this.setPosition(cc.p(0, 0));
         
         gMainScene = this;
+        gMap = new AreaMap();
         
         gPlayer = new Player();
         gPlayer.gainCard('C_TangSangzang');

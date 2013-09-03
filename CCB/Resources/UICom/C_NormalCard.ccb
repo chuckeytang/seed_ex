@@ -101,7 +101,7 @@
 								<key>value</key>
 								<array>
 									<string></string>
-									<string>UI/Card/card_bg_black.png</string>
+									<string>UI/Card/card_Dbg_black.png</string>
 								</array>
 							</dict>
 							<dict>
@@ -112,7 +112,7 @@
 								<key>value</key>
 								<array>
 									<string></string>
-									<string>UI/Card/card_bg_black.png</string>
+									<string>UI/Card/card_Dbg_black.png</string>
 								</array>
 							</dict>
 							<dict>
@@ -123,7 +123,7 @@
 								<key>value</key>
 								<array>
 									<string></string>
-									<string>UI/Card/card_bg_black.png</string>
+									<string>UI/Card/card_Dbg_black.png</string>
 								</array>
 							</dict>
 						</array>
