@@ -6,7 +6,7 @@
 var Window_MainLayer = cc.CCBLayer.extend({
     ctor:function() {
         "use strict";
-        this._super();
+        //this._super();
     },
             
     onLoadCCB: function() {

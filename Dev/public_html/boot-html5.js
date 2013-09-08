@@ -20,7 +20,6 @@
            'Logic/Card.js',
            'Logic/Prop.js',
            'Logic/Map.js',
-           'Logic/Monster.js',
             'Logic/Player.js',
            'UICom/UIBase/MoveView.js',
             'UICom/UIBase/ScrollView.js',

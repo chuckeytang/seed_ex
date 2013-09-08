@@ -1,8 +1,9 @@
-var Pp = Pp || {};
+var pp = pp || {};
 
-Pp.Prop = cc.Class.extend({
-    ctor: function(){
-        
+pp.Prop = cc.Class.extend({
+    _id: null,
+    ctor: function(ID){
+        this._id = ID;
     }
     ,    
     flush: function() {
@@ -11,6 +12,10 @@ Pp.Prop = cc.Class.extend({
     ,
     loadFromDB: function() {
 
+    },
+
+    getPropID: function() {
+        return this._id;
     }
     ,
     use: function(card){
@@ -18,9 +23,9 @@ Pp.Prop = cc.Class.extend({
     }
 });
 
-Pp.Xiantao = Pp.Prop.extend({
-    ctor: function(){
-        this._super();
+pp.Xiantao = pp.Prop.extend({
+    ctor: function(ID){
+        this._super(ID);
     }
     ,
     use: function(card){
@@ -28,9 +33,9 @@ Pp.Xiantao = Pp.Prop.extend({
     }
 }); 
 
-Pp.Pantao = Pp.Prop.extend({
-    ctor: function(){
-        this._super();
+pp.Pantao = pp.Prop.extend({
+    ctor: function(ID){
+        this._super(ID);
     }
     ,
     use: function(card){
@@ -38,12 +43,23 @@ Pp.Pantao = Pp.Prop.extend({
     }
 }); 
 
-Pp.Huanhundan = Pp.Prop.extend({
-    ctor: function(){
-        this._super();
+pp.Huanhundan = pp.Prop.extend({
+    ctor: function(ID){
+        this._super(ID);
     }
     ,
     use: function(card){
-        
+
     }
-}); 
+});
+
+
+pp.FabaoFrag = pp.Prop.extend({
+    ctor: function(ID){
+        this._super(ID);
+    }
+    ,
+    use: function(card){
+
+    }
+});

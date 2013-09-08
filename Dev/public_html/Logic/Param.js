@@ -10,12 +10,32 @@ conf.MONSTER_CARD_PARAM = 'monster_card';
 conf.PUTONG_MONSTER_BG = 'card_Ubg_green2.png';
 conf.JINGYING_MONSTER_BG = 'card_Ubg_blue2.png';
 conf.BOSS_MONSTER_BG = 'card_Ubg_purple2.png';
+conf.MITH_MONSTER_BG = 'card_Dbg_red.png';
+conf.PLAYER_CARD_BG = 'card_Dbg_brown.png';
+conf.EMPTY_CARD_BG = 'card_Dbg_black.png';
+
+// fabao background color
+conf.FABAO_BLACK_BG = 'img_cell_black_bg.png';
+conf.FABAO_BLUE_BG = 'img_cell_blue_bg.png';
+conf.FABAO_GREEN_BG = 'img_cell_green_bg.png';
+conf.FABAO_PURPLE_BG = 'img_cell_purple_bg.png';
+conf.FABAO_YELLOW_BG = 'img_cell_yellow_bg.png';
+
+// item frame
+conf.ITEM_WHITE_FR = 'img_white_frame.png';
+conf.ITEM_GREEN_FR = 'img_green_frame.png';
+conf.ITEM_BLUE_FR = 'img_blue_frame.png';
+conf.ITEM_BROWN_FR = 'img_brown_frame.png';
+conf.ITEM_PURPLE_FR = 'img_purple_frame.png';
+conf.ITEM_RED_FR = 'img_red_frame.png';
+conf.ITEM_YELLOW_FR = 'img_yellow_frame.png';
 
 // level type
 conf.LEVEL_GUIDE = 'guide';
 conf.LEVEL_NORMAL = 'normal';
 conf.LEVEL_LOCKED = 'locked';
 
+conf.CARD_MITH_PIC = 'card_mith.png';
 // card id
 conf.TANGSANZANG = 'C_TangSangzang';
 conf.SUNWUKONG = 'C_SunWukong';
@@ -41,6 +61,7 @@ conf.BOSS_RECOVER = 'C_BossRecover';
 conf.BOSS_AGILE = 'C_BossAgile';
 conf.BOSS_DEFENSE = 'C_BossDefense';
 
+// prop id
 conf.PROP_XIANTAO = "Xiantao";
 conf.PROP_PANTAO = "Pantao";
 conf.PROP_HUANHUNDAN = "Huanhundan";
@@ -468,6 +489,11 @@ OneMonsterConf = cc.Class.extend({
     getFabaoTaken1: function() {
         
     },
+
+    getCardConf: function() {
+        return this._monsterCardInfo;
+    },
+
     getMonsterType: function() {
         return this._monsterCardInfo.cardID;
     }
@@ -631,7 +657,7 @@ LevelConf = cc.Class.extend({
                 if(IsNull(monsterInfo)) {
                     cc.Assert(0,'wrong monster id');
                 }
-                this._1stFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]]);
+                this._1stFightMonList[monsterInfo.getMonsterID()] = [monsterInfo, monParams[2], monParams[3]];
             }
         }
 
@@ -643,7 +669,7 @@ LevelConf = cc.Class.extend({
                 if(IsNull(monsterInfo)) {
                     cc.Assert(0,'wrong monster id');
                 }
-                this._2ndFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]]);
+                this._2ndFightMonList[monsterInfo.getMonsterID()] = [monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]];
             }
         }
 
@@ -655,7 +681,7 @@ LevelConf = cc.Class.extend({
                 if(IsNull(monsterInfo)) {
                     cc.Assert(0,'wrong monster id');
                 }
-                this._3rdFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]]);
+                this._3rdFightMonList[monsterInfo.getMonsterID()] = [monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]];
             }
         }
     }
@@ -760,10 +786,9 @@ LevelConf = cc.Class.extend({
         return this._3rdFightMonList;
     }
 });
-LevelConf.MONSTER_ID = 0;
-LevelConf.MONSTER_INFO = 1;
-LevelConf.MONSTER_LEVEL = 2;
-LevelConf.MONSTER_STAR = 3;
+LevelConf.MONSTER_INFO = 0;
+LevelConf.MONSTER_LEVEL = 1;
+LevelConf.MONSTER_STAR = 2;
 
 ZoneConf = cc.Class.extend({
     _zoneID: null,

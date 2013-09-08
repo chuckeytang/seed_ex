@@ -18,5 +18,8 @@ var CCBMainScene = cc.Scene.extend({
         gPlayer = new Player();
         gPlayer.gainCard('C_TangSangzang');
         gPlayer.gainCard('C_SunWukong');
+
+        gPlayer.gainProp('P_Xiantao', 100);
+        gPlayer.gainProp('P_Huanhundan', 100);
     }
 });

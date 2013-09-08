@@ -1,6 +1,5 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+var fb = fb || {};
 
+fb.Fabao = cc.Class.extend({
 
+});

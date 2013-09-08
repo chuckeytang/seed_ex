@@ -87,8 +87,8 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>42.666664123535156</real>
-									<real>71.555557250976562</real>
+									<real>42</real>
+									<real>70</real>
 									<integer>0</integer>
 								</array>
 							</dict>
@@ -237,8 +237,8 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>42.666664123535156</real>
-									<real>71.555557250976562</real>
+									<real>42</real>
+									<real>70</real>
 									<integer>0</integer>
 								</array>
 							</dict>
@@ -271,7 +271,7 @@
 				<key>displayName</key>
 				<string>Card2</string>
 				<key>memberVarAssignmentName</key>
-				<string>start_card</string>
+				<string>next_card</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>

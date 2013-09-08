@@ -64,6 +64,9 @@ cd.PlayerCard = cd.Card.extend({
         this.curLvExp = db.getStringForKey(this.type+'_'+this.curLvExp.toString());
     }
     ,
+    getCardID: function() {
+        return this._cardConf.cardID;
+    },
     // logic function
     gainExp: function() {
         
@@ -80,18 +83,41 @@ cd.PlayerCard = cd.Card.extend({
 });
 
 cd.MonsterCard = cd.Card.extend({
-    
-    ctor: function(ID) {
-        this._super(ID);
-        this._cardConf = conf.Param.monsterList[ID];
+    _monsterInfo: null,
+    _dropInfo: null,
+    _level: null,
+    _star: 0,
+    ctor: function(monID, level, star) {
+        this._monsterInfo = conf.Param.monsterList[monID];
+        this._cardConf = this._monsterInfo.getCardConf();
+        this._super(this._cardConf.cardID);
+        this._level = level;
+        this._star = star;
         this.updateMyData();
-    }
-    ,
+    },
+
     flush: function() {
         this._super();
     }
     ,
     loadFromDB: function() {
         this._super();
-    }    
+    },
+
+    getMonsterID: function(){
+        return this._monsterInfo.getMonsterID();
+    },
+
+    getMonsterType: function() {
+        return this._monsterInfo.getMonsterType();
+    },
+
+    getLevel: function() {
+        return this._level;
+    },
+
+    getStar: function() {
+        return this._star;
+    }
+
 });

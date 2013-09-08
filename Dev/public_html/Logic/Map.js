@@ -30,7 +30,7 @@ var AreaMap = Map.extend({
         for(var i=0; i<this._zones.length; i++) {
             this._zones[i].loadFromDB();
         }
-    },
+    }
 });
 
 var LevelNode = cc.Class.extend({
@@ -52,18 +52,21 @@ var LevelNode = cc.Class.extend({
         this._2ndMonsters=new Array();
         this._3rdMonsters=new Array();
         
-        for(var i=0; i<monsConf1.length; i++) {
-            this._1stMonsters.push(new Monster(monsConf1[i][LevelConf.MONSTER_ID], monsConf1[i][LevelConf.MONSTER_LEVEL], this.toValue(monsConf1[i][LevelConf.MONSTER_STAR])));
+        for(var id in monsConf1) {
+            if(id.search('M_') !== -1)
+                this._1stMonsters.push(new cd.MonsterCard(id, monsConf1[id][LevelConf.MONSTER_LEVEL], this.toValue(monsConf1[id][LevelConf.MONSTER_STAR])));
         }
 
         var monsConf2 = levelConf.get2ndFightMonList();
-        for(var i=0; i<monsConf2.length; i++) {
-            this._2ndMonsters.push(new Monster(monsConf2[i][LevelConf.MONSTER_ID], monsConf2[i][LevelConf.MONSTER_LEVEL], this.toValue(monsConf2[i][LevelConf.MONSTER_STAR])));
+        for(var id in monsConf2) {
+            if(id.search('M_') !== -1)
+                this._2ndMonsters.push(new cd.MonsterCard(id, monsConf2[id][LevelConf.MONSTER_LEVEL], this.toValue(monsConf2[id][LevelConf.MONSTER_STAR])));
         }
 
         var monsConf3 = levelConf.get3rdFightMonList();
-        for(var i=0; i<monsConf3.length; i++) {
-            this._3rdMonsters.push(new Monster(monsConf3[i][LevelConf.MONSTER_ID], monsConf3[i][LevelConf.MONSTER_LEVEL], this.toValue(monsConf3[i][LevelConf.MONSTER_STAR])));
+        for(var id in monsConf3) {
+            if(id.search('M_') !== -1)
+                this._3rdMonsters.push(new cd.MonsterCard(id, monsConf3[id][LevelConf.MONSTER_LEVEL], this.toValue(monsConf3[id][LevelConf.MONSTER_STAR])));
         }
 
         this.loadFromDB();
@@ -128,6 +131,22 @@ var LevelNode = cc.Class.extend({
 
     get3rdMons: function() {
         return this._3rdMonsters;
+    },
+
+    get1stFightCardNum: function() {
+        return this._confData.get1stFightCardNum();
+    },
+
+    get2ndFightCardNum: function() {
+        return this._confData.get2ndFightCardNum();
+    },
+
+    get3rdFightCardNum: function() {
+        return this._confData.get3rdFightCardNum();
+    },
+
+    getLevelType: function() {
+        return this._confData.getLevelType();
     },
 
     challenge: function() {

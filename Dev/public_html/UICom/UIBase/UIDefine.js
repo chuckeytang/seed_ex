@@ -32,13 +32,13 @@ UI.WIDGET_SMALL_MAP = "UICom/C_SmallMap";
 
 // priority define
 UI.WINDOW_PRIORITY = cc.MENU_HANDLER_PRIORITY;
-UI.WINDOW_BLOCK_PRIORITY = UI.WINDOW_PRIORITY + 1;
-UI.SCROLL_VIEW_PRIORITY = UI.WINDOW_PRIORITY;
+UI.WINDOW_BLOCK_PRIORITY = UI.WINDOW_PRIORITY - 2;
+UI.SCROLL_VIEW_PRIORITY = UI.WINDOW_PRIORITY - 1;
 
 // ui background define
 UI.BG_DA_NAO_TIAN_GONG = "danaotiangong"
 UI.BG_CHANG_AN_CHENG = "changancheng"
 var ui_bg_path = [
     [UI.BG_DA_NAO_TIAN_GONG, "UI/Map/map_danaotiangong.png"],
-    [UI.BG_CHANG_AN_CHENG, "UI/Map/map_changancheng.png"],
+    [UI.BG_CHANG_AN_CHENG, "UI/Map/map_changancheng.png"]
 ];

@@ -105,7 +105,7 @@ cc.Node.prototype.addCCBChild = function (ccblayer_or_name, zorder, tag) {
 };
 
 // CCBLayer
-cc.CCBLayer = cc.Layer.extend({
+cc.CCBLayer = cc.Class.extend({
     _switchMenuID: null,
     is_ccb_layer: true,
     ccb_name: "",
@@ -114,6 +114,14 @@ cc.CCBLayer = cc.Layer.extend({
         if (NotNull(this.onLoadCCB))
             this.onLoadCCB();
         this.setUpdateEnabled(true);
+    },
+
+    init: function() {
+
+    },
+
+    release: function() {
+
     },
 
     onUpdate: function(dt) {
@@ -390,12 +398,15 @@ cc.Scene.prototype.popCCBLayer = function (callback, withOutro) {
         layer.controller.playAnimation("Outro", removeFunc);
     else
         removeFunc.apply();
+    return layer;
 };
 
  cc.Scene.prototype.switchCCBLayer = function (ccblayer_or_name, callback, withAnim) {
     "use strict";
-    this.popCCBLayer(callback, withAnim);
-    this.pushCCBLayer(ccblayer_or_name, callback, withAnim);
+    var oldLayer = this.popCCBLayer(callback, withAnim);
+    oldLayer.controller.release();
+    var newLayer = this.pushCCBLayer(ccblayer_or_name, callback, withAnim);
+    newLayer.controller.init();
  }; 
 
 cc.Scene.prototype.getCurCCBLayer = function() {

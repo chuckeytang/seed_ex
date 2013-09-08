@@ -11,14 +11,15 @@ var SmallMapSVContainer = ScrollViewContainer.extend({
  */
 
 var Window_SmallMap = cc.CCBLayer.extend({
-    _nodeContainer:null,
+    _zone: null,
+    _nodeContainer: null,
     _rootNode: null,
     _levelTree: null,
     _roads: null,
             
     ctor:function() {
         "use strict";
-        this._super();
+        //this._super();
         this._levelTree = new Array();
         this._roads = new Array();
     },
@@ -27,16 +28,35 @@ var Window_SmallMap = cc.CCBLayer.extend({
         "use strict";
         cc.log("Window_SmallMap loaded --- ccbi");
         this._nodeContainer = new PreBattleCandidateSVContainer;
-        this._nodeContainer.InitWithScrollView(this.scroll_road_node,cc.size(0, 10), new cc.Color4B(255,255,255,0));
+        this._nodeContainer.InitWithScrollView(this.scroll_road_node, new cc.Size(0, 10), new cc.Color4B(255,255,255,0));
+    },
+
+    // delay release means we can release this until we found it is exactly useless
+    releaseDelay: function() {
+        cc.CCBLayer.prototype.release.call(this);
+        this._rootNode = null;
+        this._nodeContainer.clearAllItem();
+        this._levelTree.clear();
+        this._roads.clear();
+    },
+
+    init: function() {
+        if(this._zone === gMap.getZone(gPlayer.playingZone)) {
+            return;
+        }
+
+        this.releaseDelay();
+        cc.CCBLayer.prototype.init.call(this);
+
         var roadSize = gMainScene.createWidget(UI.WIDGET_ROAD).controller.getWidgetSize();
         roadSize.width *= 0.95;
         var nodeSize;
 
-        var zone = gMap.getZone(gPlayer.playingZone);   //ZoneMap
-        var levelCnt = zone.getLevelCnt();
+        this._zone = gMap.getZone(gPlayer.playingZone);   //ZoneMap
+        var levelCnt = this._zone.getLevelCnt();
         var contentSize;
         for(var i=0; i<levelCnt; i++) {
-            var levelNode = zone.getLevel(i+1);     //LevelNode
+            var levelNode = this._zone.getLevel(i+1);     //LevelNode
             var node = gMainScene.createWidget(UI.WIDGET_LEVEL_NODE);
             if(IsNull(contentSize)) {
                 // init content size
@@ -55,57 +75,31 @@ var Window_SmallMap = cc.CCBLayer.extend({
             if(!(node.controller instanceof Widget_LevelNode))
                 continue;
             node.model = levelNode;
+            node.controller.markLevelID(levelNode.getThisLevelID());
             node.meSettled = false;
             node.branchSettled = false;
 
-            var headMonID;
-            var headMonType;
+            //use monster card to init fight card
+            var headMon;
+
             switch(node.model.getCurChallengeTimes()) {
                 case 0: {
-                    headMonID = node.model.get1stMons()[0].getMonsterID();
-                    headMonType = node.model.get1stMons()[0].getMonsterType();
-                    }
+                    headMon = node.model.get1stMons()[0];
+                }
                     break;
                 case 1: {
-                    headMonID = node.model.get2ndMons()[0].getMonsterID();
-                    headMonType = node.model.get2ndMons()[0].getMonsterType();
-                    }
+                    headMon = node.model.get2ndMons()[0];
+                }
                     break;
                 default: {
-                    headMonID = node.model.get3rdMons()[0].getMonsterID();
-                    headMonType = node.model.get3rdMons()[0].getMonsterType();
-                    }
+                    headMon = node.model.get3rdMons()[0];
+                }
                     break;
             }
 
             //change card character
-            if(NotNull(headMonID)) {
-                node.controller.changeCharAvartar(headMonID.substring(2).toLowerCase());
-            }
-
-            //change card background
-            switch(headMonType) {
-                case conf.PUTONG_ATTACK:
-                case conf.PUTONG_RECOVER:
-                case conf.PUTONG_AGILE:
-                case conf.PUTONG_DEFENSE: {
-                    node.controller.changeCardBg(conf.PUTONG_MONSTER_BG);
-                }
-                break;
-                case conf.JINGYING_ATTACK:
-                case conf.JINGYING_RECOVER:
-                case conf.JINGYING_AGILE:
-                case conf.JINGYING_DEFENSE: {
-                    node.controller.changeCardBg(conf.JINGYING_MONSTER_BG);
-                }
-                break;
-                case conf.BOSS_ATTACK:
-                case conf.BOSS_RECOVER:
-                case conf.BOSS_AGILE:
-                case conf.BOSS_DEFENSE: {
-                    node.controller.changeCardBg(conf.BOSS_MONSTER_BG);
-                }
-                break;
+            if(NotNull(headMon)) {
+                node.controller.initWithCard(headMon);
             }
 
             // set position
@@ -159,6 +153,7 @@ var Window_SmallMap = cc.CCBLayer.extend({
                         //road
                         var leftRoad = gMainScene.createWidget(UI.WIDGET_ROAD);
                         leftRoad.init(node, leftNode, Widget_Road.TO_LEFT);
+                        leftRoad.model = leftNode.model;
                         leftRoad.controller.rotate(180);
                         leftRoad.setPosition(node.controller.left_node.getPosition());
                         this._roads.push(leftRoad);
@@ -169,9 +164,9 @@ var Window_SmallMap = cc.CCBLayer.extend({
                         }
                         else
                             leftRoad.controller.showLock(false);
-                    } 
+                    }
                 }
-                
+
 
                 //right
                 if(NotNull(node.model.getRightNode())) {
@@ -184,6 +179,7 @@ var Window_SmallMap = cc.CCBLayer.extend({
                         //road
                         var rightRoad = gMainScene.createWidget(UI.WIDGET_ROAD);
                         rightRoad.init(node, rightRoad, Widget_Road.TO_RIGHT);
+                        rightRoad.model = rightNode.model;
                         rightRoad.controller.rotate(0);
                         rightRoad.setPosition(node.controller.right_node.getPosition());
                         this._roads.push(rightRoad);
@@ -208,6 +204,7 @@ var Window_SmallMap = cc.CCBLayer.extend({
                         //road
                         var topRoad = gMainScene.createWidget(UI.WIDGET_ROAD);
                         topRoad.init(node, topRoad, Widget_Road.TO_TOP);
+                        topRoad.model = topNode.model;
                         topRoad.controller.rotate(-90);
                         topRoad.setPosition(node.controller.top_node.getPosition());
                         this._roads.push(topRoad);
@@ -232,6 +229,7 @@ var Window_SmallMap = cc.CCBLayer.extend({
                         //road
                         var bottomRoad = gMainScene.createWidget(UI.WIDGET_ROAD);
                         bottomRoad.init(node, bottomRoad, Widget_Road.TO_BOTTOM);
+                        bottomRoad.model = bottomNode.model;
                         bottomRoad.controller.rotate(90);
                         bottomRoad.setPosition(node.controller.bottom_node.getPosition());
                         this._roads.push(bottomRoad);
@@ -244,7 +242,7 @@ var Window_SmallMap = cc.CCBLayer.extend({
                             bottomRoad.controller.showLock(false);
                     }
                 }
-                
+
             }
         }
 
@@ -252,10 +250,10 @@ var Window_SmallMap = cc.CCBLayer.extend({
         contentSize.rightSize = contentSize.leftSize;
         contentSize.width += contentSize.leftSize+contentSize.rightSize;
         contentSize.height += contentSize.topSize+contentSize.bottomSize;
-        this._nodeContainer.setViewSize(contentSize);
+        this._nodeContainer.setInnerSize(contentSize);
         this._nodeContainer.setContentOffsetTo(contentSize.width*0.5, false);
 
-        this._nodeContainer.getController().clearTemplateNodes();
+        this._nodeContainer.getController().hideTemplateNodes();
     }
 });
 

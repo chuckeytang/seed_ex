@@ -47,8 +47,12 @@ var ScrollViewContainer = cc.LayerColor.extend({
         }
     },
 
-    setViewSize: function(viewsize) {
+    setInnerSize: function(viewsize) {
         this.scrollView.setContentSize(viewsize);
+    },
+
+    getInnerSize: function(viewsize) {
+        return this.scrollView.getContentSize();
     },
 
     fillWithData: function(data) {
