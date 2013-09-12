@@ -2,6 +2,9 @@ var conf = conf || {};
 
 conf.MAX_LEVEL_HUNLI_COLLECT = 3;
 conf.NULL_CONF_VALUE = 'NA';
+conf.MAX_FIGHT_CARD_NUM = 8;
+conf.MAX_LOW_LAYER_ZORDER = -99;
+conf.MAX_HIGHT_LAYER_ZORDER = 99;
 
 conf.MAP_PARAM = 'map';
 conf.MONSTER_CARD_PARAM = 'monster_card'; 
@@ -29,6 +32,21 @@ conf.ITEM_BROWN_FR = 'img_brown_frame.png';
 conf.ITEM_PURPLE_FR = 'img_purple_frame.png';
 conf.ITEM_RED_FR = 'img_red_frame.png';
 conf.ITEM_YELLOW_FR = 'img_yellow_frame.png';
+
+// strategy icon
+conf.STRA_GONGJI_ICON = 'img_attack.png';
+conf.STRA_FANSHI_ICON = 'img_fanshi.png';
+conf.STRA_JUQI_ICON = 'img_juqi.png';
+
+// skill type
+conf.SKILL_TYPE_GONGJI = 'Gongji';
+conf.SKILL_TYPE_FANSHI = 'Fanshi';
+conf.SKILL_TYPE_JUQI = 'Juqi';
+
+// strategy id
+conf.STRA_GONGJI_ID = 'gongji';
+conf.STRA_FANSHI_ID = 'fanshi';
+conf.STRA_JUQI_ID = 'juqi';
 
 // level type
 conf.LEVEL_GUIDE = 'guide';
@@ -650,38 +668,38 @@ LevelConf = cc.Class.extend({
         this._bottomLevel = levelInfo[colMapping[MapConf.BRANCH_BOTTOM]];
         
         var fight1Mons = levelInfo[colMapping[MapConf.FIGHT_MON1]].split('|');
-        if(fight1Mons[0] !== 'NA') {
+        if(fight1Mons[0] !== conf.NULL_CONF_VALUE) {
             for(var i=0; i<fight1Mons.length; i++) {
                 var monParams = fight1Mons[i].split('_');
                 var monsterInfo = conf.Param.monsterList[monParams[0]+'_'+monParams[1]];
                 if(IsNull(monsterInfo)) {
                     cc.Assert(0,'wrong monster id');
                 }
-                this._1stFightMonList[monsterInfo.getMonsterID()] = [monsterInfo, monParams[2], monParams[3]];
+                this._1stFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]]);
             }
         }
 
         var fight2Mons = levelInfo[colMapping[MapConf.FIGHT_MON2]].split('|');
-        if(fight2Mons[0] !== 'NA') {
+        if(fight2Mons[0] !== conf.NULL_CONF_VALUE) {
             for(var i=0; i<fight2Mons.length; i++) {
                 var monParams = fight2Mons[i].split('_');
                 var monsterInfo = conf.Param.monsterList[monParams[0]+'_'+monParams[1]];
                 if(IsNull(monsterInfo)) {
                     cc.Assert(0,'wrong monster id');
                 }
-                this._2ndFightMonList[monsterInfo.getMonsterID()] = [monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]];
+                this._2ndFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]]);
             }
         }
 
         var fight3Mons = levelInfo[colMapping[MapConf.FIGHT_MON3]].split('|');
-        if(fight3Mons[0] !== 'NA') {
+        if(fight3Mons[0] !== conf.NULL_CONF_VALUE) {
             for(var i=0; i<fight3Mons.length; i++) {
                 var monParams = fight3Mons[i].split('_');
                 var monsterInfo = conf.Param.monsterList[monParams[0]+'_'+monParams[1]];
                 if(IsNull(monsterInfo)) {
                     cc.Assert(0,'wrong monster id');
                 }
-                this._3rdFightMonList[monsterInfo.getMonsterID()] = [monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]];
+                this._3rdFightMonList.push([monsterInfo.getMonsterID(), monsterInfo, monParams[2], monParams[3]]);
             }
         }
     }
@@ -786,9 +804,10 @@ LevelConf = cc.Class.extend({
         return this._3rdFightMonList;
     }
 });
-LevelConf.MONSTER_INFO = 0;
-LevelConf.MONSTER_LEVEL = 1;
-LevelConf.MONSTER_STAR = 2;
+LevelConf.MONSTER_ID = 0;
+LevelConf.MONSTER_INFO = 1;
+LevelConf.MONSTER_LEVEL = 2;
+LevelConf.MONSTER_STAR = 3;
 
 ZoneConf = cc.Class.extend({
     _zoneID: null,

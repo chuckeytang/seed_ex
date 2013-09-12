@@ -1,8 +1,10 @@
 var Player = cc.Class.extend({
-    _cardPackage: new Array(),   //[<CardID, CardObject, CardNum>, <CardID, CardObject, CardNum>]
-    _propPackage: new Array(),   //[<name>, <prop>, <piled number>]
-    _fabaoPackage: new Array(),  //4 categories, each includes [<name>, <prop>, <piled number>]
-    _fragPackage: new Array(),   //[<name>, <prop>, <piled number>]
+    _cardPackage: null,   //[<CardID, CardObject, CardNum>, <CardID, CardObject, CardNum>]
+    _propPackage: null,   //[<name>, <prop>, <piled number>]
+    _fabaoPackage: null,  //4 categories, each includes [<name>, <prop>, <piled number>]
+    _fragPackage: null,   //[<name>, <prop>, <piled number>]
+
+    _battleFieldCards: null,
     _curZone: 0,
     _curLevel: 0,
 
@@ -11,26 +13,35 @@ var Player = cc.Class.extend({
     
     ctor: function(){
         this.loadFromDB();
+        this._cardPackage = new Array();
+        this._propPackage = new Array();
+        this._fabaoPackage = new Array();
+        this._fragPackage = new Array();
+        this._battleFieldCards = new Array();
     }
     ,    
     flush: function() {
         var db = cc.UserDefault.getInstance();
         var cardTypes = "";
-        for(var i=0; i<this._cardPackage.length; i++) {
-            if (!(this._cardPackage[i][1] instanceof cd.PlayerCard)) {
+        for(var id in this._cardPackage) {
+            if(id.search('C_') === -1) continue;
+
+            if (!(this._cardPackage[id][Player.CARD_OBJ_INDEX] instanceof cd.PlayerCard)) {
                 cc.log("invalid player card");
                 continue;
             }
-            this._cardPackage[i][1].flush();
-            cardTypes += (this._cardPackage[i][1].type + '_' + this._cardPackage[i][2] + '|');
+            this._cardPackage[id][Player.CARD_OBJ_INDEX].flush();
+            cardTypes += (this._cardPackage[id][Player.CARD_OBJ_INDEX].type + '_' + this._cardPackage[id][Player.CARD_NUM_INDEX] + '|');
         }
         cardTypes = cardTypes.slice(0, cardTypes.length-1);
 
         var propNames = "";
-        for(var i=0; i<this._propPackage.length; i++) {
-            propNames += (this._propPackage[i][0] + '|');
-            this._propPackage[i][1].flush();
-            db.setStringForKey('player_'+this._propPackage[i][0], this._propPackage[i][2]);
+        for(var id in this._propPackage) {
+            if(id.search('P_') === -1) continue;
+            
+            propNames += (id + '|');
+            this._propPackage[id][Player.PROP_OBJ_INDEX].flush();
+            db.setStringForKey('player_'+id, this._propPackage[id][Player.PROP_NUM_INDEX]);
         }
         propNames = propNames.slice(0, propNames.length-1);
 
@@ -105,7 +116,43 @@ var Player = cc.Class.extend({
         }
     },
 
-    equipProp: function(propID) {
+    getCardPackage: function() {
+        return this._cardPackage;
+    },
+
+    getPropPackage: function() {
+        return this._propPackage;
+    },
+
+    getBattleCards: function() {
+        return this._battleFieldCards;
+    },
+
+    enterBattleField: function(cardIDs) {
+        for(var i=0; i<cardIDs.length; i++) {
+             this._equipCard(cardIDs[i]);
+        }
+        gBattleField.init();
+        this.flush();
+    },
+
+    leaveBattleField: function() {
+        for(var i=0; i<this._battleFieldCards.length; i++) {
+            var backCard = this._battleFieldCards[i];
+            backCard.onBattle = false;
+            delete backCard['prop'];
+        }
+        gBattleField.release();
+    },
+
+    _equipCard: function(cardID) {
+        var onBoardCard = this._cardPackage[cardID][Player.CARD_OBJ_INDEX];
+        onBoardCard.onBattle = true;
+        this._battleFieldCards.push(onBoardCard);
+        this._equipPropTo(onBoardCard, cardID.propID);
+    },
+
+    _equipPropTo: function(card, propID) {
         if(IsNull(this._propPackage[propID])){
             return "prop not exist";
         }
@@ -113,15 +160,10 @@ var Player = cc.Class.extend({
         if(this._propPackage[propID][Player.PROP_NUM_INDEX] === 0) {
             delete this._propPackage[propID];
         }
-        return new pp[propID.substring(2)](propID);
-    },
-
-    getCardPackage: function() {
-        return this._cardPackage;
-    },
-
-    getPropPackage: function() {
-        return this._propPackage;
+        if(NotNull(card.prop)) {
+            cc.Assert(false, "card prop has already equipped");
+        }
+        card.prop = new pp[propID.substring(2)](propID);
     }
 });
 

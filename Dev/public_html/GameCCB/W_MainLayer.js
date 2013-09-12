@@ -13,9 +13,9 @@ var Window_MainLayer = cc.CCBLayer.extend({
         "use strict";
         cc.log("Window_MainLayer loaded --- ccbi");
     },
-            
+
     onStartClick: function() {
-        gMainScene.switchCCBLayer(UI.WINDOW_BIG_MAP);
+        this._switchMenuID = UI.WINDOW_BIG_MAP;
     }
 });
 

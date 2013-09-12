@@ -3,6 +3,7 @@ var cd = cd || {};
 cd.Card = cc.Class.extend({
     _id: null,
     _cardConf: null,
+    _skillList: new Array(),
 
     curLevel: 1,
     maxHp: 0,
@@ -12,8 +13,14 @@ cd.Card = cc.Class.extend({
     juqi: 0,
     fanshiRat: 0,
     fanshi: 0,
+
+    onBattle: false,
     
     ctor: function(ID) {
+        this._skillList[conf.SKILL_TYPE_GONGJI] = new Array();
+        this._skillList[conf.SKILL_TYPE_FANSHI] = new Array();
+        this._skillList[conf.SKILL_TYPE_JUQI] = new Array();
+
         this._id = ID;
     }
     ,

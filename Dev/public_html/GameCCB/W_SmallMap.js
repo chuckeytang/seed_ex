@@ -75,7 +75,8 @@ var Window_SmallMap = cc.CCBLayer.extend({
             if(!(node.controller instanceof Widget_LevelNode))
                 continue;
             node.model = levelNode;
-            node.controller.markLevelID(levelNode.getThisLevelID());
+            node.controller.level = levelNode.getThisLevelID();
+            node.controller.setCardClickCallback(this.onLevelClick, this);
             node.meSettled = false;
             node.branchSettled = false;
 
@@ -254,6 +255,11 @@ var Window_SmallMap = cc.CCBLayer.extend({
         this._nodeContainer.setContentOffsetTo(contentSize.width*0.5, false);
 
         this._nodeContainer.getController().hideTemplateNodes();
+    },
+
+    onLevelClick: function(levelNode) {
+        gPlayer.playingLevel = levelNode.controller.level;
+        this._switchMenuID = UI.WINDOW_ENTER_BATTLE_LAYER_ID;
     }
 });
 

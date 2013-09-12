@@ -47,26 +47,23 @@ var LevelNode = cc.Class.extend({
     
     ctor: function(levelConf) {
         this._confData = levelConf;
-        var monsConf1 = levelConf.get1stFightMonList();
         this._1stMonsters=new Array();
         this._2ndMonsters=new Array();
         this._3rdMonsters=new Array();
-        
-        for(var id in monsConf1) {
-            if(id.search('M_') !== -1)
-                this._1stMonsters.push(new cd.MonsterCard(id, monsConf1[id][LevelConf.MONSTER_LEVEL], this.toValue(monsConf1[id][LevelConf.MONSTER_STAR])));
+
+        var monsConf1 = levelConf.get1stFightMonList();
+        for(var i=0; i<monsConf1.length; i++) {
+            this._1stMonsters.push(new cd.MonsterCard(monsConf1[i][LevelConf.MONSTER_ID], monsConf1[i][LevelConf.MONSTER_LEVEL], this.toValue(monsConf1[i][LevelConf.MONSTER_STAR])));
         }
 
         var monsConf2 = levelConf.get2ndFightMonList();
-        for(var id in monsConf2) {
-            if(id.search('M_') !== -1)
-                this._2ndMonsters.push(new cd.MonsterCard(id, monsConf2[id][LevelConf.MONSTER_LEVEL], this.toValue(monsConf2[id][LevelConf.MONSTER_STAR])));
+        for(var i=0; i<monsConf2.length; i++) {
+            this._2ndMonsters.push(new cd.MonsterCard(monsConf2[i][LevelConf.MONSTER_ID], monsConf2[i][LevelConf.MONSTER_LEVEL], this.toValue(monsConf2[i][LevelConf.MONSTER_STAR])));
         }
 
         var monsConf3 = levelConf.get3rdFightMonList();
-        for(var id in monsConf3) {
-            if(id.search('M_') !== -1)
-                this._3rdMonsters.push(new cd.MonsterCard(id, monsConf3[id][LevelConf.MONSTER_LEVEL], this.toValue(monsConf3[id][LevelConf.MONSTER_STAR])));
+        for(var i=0; i<monsConf3.length; i++) {
+            this._3rdMonsters.push(new cd.MonsterCard(monsConf3[i][LevelConf.MONSTER_ID], monsConf3[i][LevelConf.MONSTER_LEVEL], this.toValue(monsConf3[i][LevelConf.MONSTER_STAR])));
         }
 
         this.loadFromDB();
@@ -80,6 +77,8 @@ var LevelNode = cc.Class.extend({
     loadFromDB: function() {
         var db = cc.UserDefault.getInstance();
         this._challengeTimes = this.toValue(db.getStringForKey('level_'+this._confData.getAbsoluteLevelID()+this._challengeTimes.toString()));
+        // test
+        this._challengeTimes = 3;
     },
 
     construct4Sides: function(zone) {

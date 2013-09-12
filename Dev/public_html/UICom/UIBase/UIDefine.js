@@ -30,10 +30,25 @@ UI.WIDGET_ROAD = "UICom/C_Road";
 UI.WIDGET_SKILL_LIST = "UICom/C_SkillList";
 UI.WIDGET_SMALL_MAP = "UICom/C_SmallMap";
 
+// dialog id define
+UI.DIALOG_COMMON1 = "Dialog/D_Common1";
+UI.DIALOG_COMMON2 = "Dialog/D_Common2";
+UI.DIALOG_FABAO_DETAIL = "Dialog/D_FabaoDetail";
+UI.DIALOG_PROP_DETAIL = "Dialog/D_PropDetail";
+UI.DIALOG_SKILL_DETAIL = "Dialog/D_SkillDetail";
+UI.DIALOG_STRATEGY_SELECTION = "Dialog/D_StrategySelection";
+
 // priority define
 UI.WINDOW_PRIORITY = cc.MENU_HANDLER_PRIORITY;
 UI.WINDOW_BLOCK_PRIORITY = UI.WINDOW_PRIORITY - 2;
 UI.SCROLL_VIEW_PRIORITY = UI.WINDOW_PRIORITY - 1;
+UI.NO_TOUCH_LAYER_PRIORITY = -2;
+UI.LAYER_NO_TOUCH_LAYER_PRI = -1;
+UI.SCENE_NO_TOUCH_LAYER_PRI = 0;
+
+// zorder define
+UI.DIALOG_ZORDER_1 = 10;
+UI.DIALOG_ZORDER_2 = 11;
 
 // ui background define
 UI.BG_DA_NAO_TIAN_GONG = "danaotiangong"

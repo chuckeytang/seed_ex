@@ -118,7 +118,7 @@ var Window_EnterBattleLayer = cc.CCBLayer.extend({
             var card = gMainScene.createWidget(UI.WIDGET_NORMAL_CARD);
             card.type = Window_EnterBattleLayer.ENEMY_CARD;
             card.controller.initWithCard(monsterCard);
-            card.controller.setCardClickCallback(this.onEnemyCardClick);
+            card.controller.setCardClickCallback(this.onEnemyCardClick, this);
             if(IsNull(enemyContentSize)) {
                 cardSize = new cc.Size(card.controller.getWidgetSize().width*this._enemyContainer.getController().start_card.getScaleX(), card.controller.getWidgetSize().height*this._enemyContainer.getController().start_card.getScaleY());
                 enemyContentSize = new cc.Size(cardSize.width, cardSize.height);
@@ -144,7 +144,7 @@ var Window_EnterBattleLayer = cc.CCBLayer.extend({
             var card = gMainScene.createWidget(UI.WIDGET_NORMAL_CARD);
             card.type = Window_EnterBattleLayer.CANDIDATE_CARD;
             card.controller.initWithCard(cardPackage[id][Player.CARD_OBJ_INDEX]);
-            card.controller.setCardClickCallback(this.onCandidateCardClick);
+            card.controller.setCardClickCallback(this.onCandidateCardClick, this);
 
             if(IsNull(candidateContentSize)) {
                 candidateContentSize = new cc.Size(cardSize.width, cardSize.height);
@@ -167,7 +167,7 @@ var Window_EnterBattleLayer = cc.CCBLayer.extend({
             var card = gMainScene.createWidget(UI.WIDGET_NORMAL_CARD);
             card.type = Window_EnterBattleLayer.ONBOARD_CARD;
             card.controller.initWithCard();
-            card.controller.setCardClickCallback(this.onBoardCardClick);
+            card.controller.setCardClickCallback(this.onBoardCardClick, this);
 
             var prop = gMainScene.createWidget(UI.WIDGET_ITEM_BTON);
             prop.controller.initWithItem();
@@ -229,7 +229,14 @@ var Window_EnterBattleLayer = cc.CCBLayer.extend({
     },
             
     onFightClick: function() {
-        gMainScene.switchCCBLayer(UI.WINDOW_FIGHT_LAYER_ID);
+        var cardIDs = new Array();
+        for(var i=0; i<this._onbattleList.length; i++) {
+            var card = this._onbattleList[i].controller.getCardObj();
+            if(NotNull(card))
+                cardIDs.push(card.getCardID());
+        }
+        gPlayer.enterBattleField(cardIDs);
+        this._switchMenuID = UI.WINDOW_FIGHT_LAYER_ID;
     },
 
     onPropClick: function(prop) {

@@ -21,6 +21,7 @@
            'Logic/Prop.js',
            'Logic/Map.js',
             'Logic/Player.js',
+            'Logic/BattleField.js',
            'UICom/UIBase/MoveView.js',
             'UICom/UIBase/ScrollView.js',
             'UICom/UIBase/UIDefine.js',

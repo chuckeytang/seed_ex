@@ -21,21 +21,48 @@ var Widget_Sumup = cc.CCBLayer.extend({
 });
 
 var Widget_FightBton = cc.CCBLayer.extend({
+    _btonClickCallback: null,
+    _btonClickTarget: null,
     onLoadCCB: function () {
         cc.log("Widget_FightBton-----loadccb");
-    }
-    ,
-    onFightClick: function(){
-        if (gMainScene.getCurCCBController() instanceof Window_EnterBattleLayer) {
-        }
-        else if (gMainScene.getCurCCBController() instanceof Window_SmallMap) {
-            gMainScene.switchCCBLayer(UI.WINDOW_ENTER_BATTLE_LAYER_ID);
+    },
+
+    setBtonClickCallback: function(callback, target) {
+        this._btonClickCallback = callback;
+        this._btonClickTarget = target;
+    },
+
+    setEnabled: function(enable){
+        this.frame.setEnabled(enable);
+    },
+
+    changeContent: function(picName) {
+        this.content.setTexture(cc.TextureCache.getInstance().addImage('UI/Icon/'+picName));
+    },
+
+    appear: function() {
+        this.playAnimation('appear');
+        this.setEnabled(true);
+    },
+
+    disappear: function() {
+        this.playAnimation('disappear');
+        this.setEnabled(false);
+    },
+
+    onBtonClick: function(){
+        if(NotNull(this._btonClickCallback)) {
+            if(NotNull(this._btonClickTarget))
+                this._btonClickCallback.call(this._btonClickTarget, this.rootNode);
+            else
+                this._btonClickCallback.call(gMainScene.getCurCCBController(), this.rootNode);
         }
     }
 });
 
 var Widget_FightCard = cc.CCBLayer.extend({
-    _card: null,
+    _cardClickCallback: null,
+    _cardClickTarget: null,
     onLoadCCB: function () {
         cc.log("Widget_FightCard-----loadccb");
         this.setUpdateEnabled(true);
@@ -104,33 +131,33 @@ var Widget_FightCard = cc.CCBLayer.extend({
                     break;
             }
         }
-    }
-    ,
-    onCardClick: function(btn){
-        cc.log("FightCard click");
-        if(gMainScene.getCurCCBController() instanceof Window_SmallMap) {
-            gPlayer.playingLevel = this['_level'];       //mark data
-            this._switchMenuID = UI.WINDOW_ENTER_BATTLE_LAYER_ID;
-        }
     },
 
-    onUpdate: function(dt) {
-        if(NotNull(this._switchMenuID)) {
-            gMainScene.switchCCBLayer(this._switchMenuID);
-            this._switchMenuID = null;
+    setEnabled: function(enable) {
+        this.bg.setEnabled(enable);
+    }
+    ,
+    hide: function() {
+        this.rootNode.setVisible(false);
+        this.setEnabled(false);
+    },
+
+    setCardClickCallback: function(callback, target) {
+        this._cardClickCallback = callback;
+        this._cardClickTarget = target;
+    },
+
+    onCardClick: function(btn){
+        if(NotNull(this._cardClickCallback)) {
+            if(NotNull(this._cardClickTarget))
+                this._cardClickCallback.call(this._cardClickTarget, this.rootNode);
+            else
+                this._cardClickCallback.call(gMainScene.getCurCCBController(), this.rootNode);
         }
     },
 
     getWidgetSize: function() {
         return this.bg.getContentSize();
-    },
-
-    setPlayerCard: function(card) {
-
-    },
-
-    setMonsterCard: function(card) {
-
     },
 
     changeCharAvartar: function(picName) {
@@ -148,8 +175,15 @@ var Widget_FightCard = cc.CCBLayer.extend({
         this.bg.setDisabledImage(cc.Sprite.createWithTexture(cc.TextureCache.getInstance().addImage('UI/Card/'+bgName)));
     },
 
-    setUserData: function(varName, varValue) {
-        this[varName] = varValue;
+    flip: function(xy) {
+        if(xy === 'X') {
+            this.bg.setFlipX(true);
+            this.card_chr.setFlipX(true);
+        }
+        else if (xy === 'Y'){
+            this.bg.setFlipY(true);
+            this.card_chr.setFlipY(true);
+        }
     }
 });
 
@@ -244,7 +278,7 @@ var Widget_ItemBton = cc.CCBLayer.extend({
             }
             else if (this._item instanceof pp.Prop){
                 if(!(item instanceof pp.Prop) || (this._item.getPropID() !== item.getPropID())) {
-                    cc.Assert("not same item, can not equip");
+                    cc.Assert(0, "not same item, can not equip");
                     return;
                 }
             }
@@ -283,7 +317,7 @@ var Widget_ItemBton = cc.CCBLayer.extend({
 
     unequipped: function(empty) {
         if(!this.isEnabled()) {
-            cc.Assert("you don't have any item now");
+            cc.Assert(0, "you don't have any item now");
             return;
         }
         var curItem = this.getItemObj();
@@ -329,8 +363,8 @@ var Widget_ItemList = cc.CCBLayer.extend({
 
 var Widget_NormalCard = cc.CCBLayer.extend({
     _card: null,
-
     _cardClickCallback: null,
+    _cardClickTarget: null,
     onLoadCCB: function () {
         cc.log("Widget_NormalCard-----loadccb");
         this._hideAllInfo();
@@ -354,8 +388,18 @@ var Widget_NormalCard = cc.CCBLayer.extend({
         return this._card;
     },
 
-    setCardClickCallback: function(callback) {
+    setCardClickCallback: function(callback, target) {
         this._cardClickCallback = callback;
+        this._cardClickTarget = target;
+    },
+
+    onCardClick: function(btn){
+        if(NotNull(this._cardClickCallback)) {
+            if(NotNull(this._cardClickTarget))
+                this._cardClickCallback.call(this._cardClickTarget, this.rootNode);
+            else
+                this._cardClickCallback.call(gMainScene.getCurCCBController(), this.rootNode);
+        }
     },
 
     getWidgetSize: function() {
@@ -465,12 +509,6 @@ var Widget_NormalCard = cc.CCBLayer.extend({
         this.card_bg.setDisabledImage(cc.Sprite.createWithTexture(cc.TextureCache.getInstance().addImage('UI/Card/'+bgName)));
     },
 
-    onCardClick: function (btn) {
-        if(NotNull(this._cardClickCallback)) {
-            this._cardClickCallback.call(gMainScene.getCurCCBController(), this.rootNode);
-        }
-    },
-
     _hideAllInfo: function() {
         this.left_time.setVisible(false);
         this.card_num.setVisible(false);
@@ -555,12 +593,30 @@ var Widget_SkillList = cc.CCBLayer.extend({
 });
 
 var Widget_LevelNode = cc.CCBLayer.extend({
+    level: null,
+    _cardClickCallback: null,
+    _cardClickTarget: null,
     onLoadCCB: function () {
         cc.log("Widget_LevelNode-----loadccb");
     },
 
     initWithCard: function(card) {
         this.card.controller.initWithCard(card);
+    },
+
+    setCardClickCallback: function(callback, target) {
+        this._cardClickCallback = callback;
+        this._cardClickTarget = target;
+        this.card.controller.setCardClickCallback(this.onCardClick, this);
+    },
+
+    onCardClick: function(btn){
+        if(NotNull(this._cardClickCallback)) {
+            if(NotNull(this._cardClickTarget))
+                this._cardClickCallback.call(this._cardClickTarget, this.rootNode);
+            else
+                this._cardClickCallback.call(gMainScene.getCurCCBController(), this.rootNode);
+        }
     },
 
     showHunli: function(index, visible) {
@@ -587,10 +643,97 @@ var Widget_LevelNode = cc.CCBLayer.extend({
 
     changeCardBg: function(bgName) {
         this.card.controller.changeCardBg(bgName);
-    },
-
-    markLevelID: function(level) {
-        this.card.controller.setUserData('_level', level);
     }
 });
 
+var Widget_MyTeam = cc.CCBLayer.extend({
+    _readyCallback: null,
+    _readyTarget: null,
+    onLoadCCB: function () {
+    },
+
+    setTeamReadyCallback: function(callback, target) {
+        this._readyCallback = callback;
+        this._readyTarget = target;
+    },
+
+    onMyTeamReady: function() {
+        if(NotNull(this._readyCallback)) {
+            if(NotNull(this._readyTarget))
+                this._readyCallback.call(this._readyTarget, this.rootNode);
+            else
+                this._readyCallback.call(gMainScene.getCurCCBController(), this.rootNode);
+        }
+    },
+
+    enterBattleField: function() {
+        this.playAnimation('my_team_on');
+        for(var i=1; i<conf.MAX_FIGHT_CARD_NUM; i++) {
+            var card = gBattleField.myTeam.getCard(i);
+            if(IsNull(card)) {
+                this['me_helper'+i].controller.setEnabled(false);
+                this['me_helper'+i].controller.hide();
+            }
+            else {
+                this['me_helper'+i].controller.setEnabled(true);
+                this['me_helper'+i].controller.initWithCard(card);
+            }
+        }
+    }
+});
+
+var Widget_PeerTeam = cc.CCBLayer.extend({
+    _readyCallback: null,
+    _readyTarget: null,
+    _almostReadyCallback: null,
+    _almostReadyTarget: null,
+    onLoadCCB: function () {
+    },
+
+    setTeamReadyCallback: function(callback, target) {
+        this._readyCallback = callback;
+        this._readyTarget = target;
+    },
+
+    onPeerTeamReady: function() {
+        if(NotNull(this._readyCallback)) {
+            if(NotNull(this._readyTarget))
+                this._readyCallback.call(this._readyTarget, this.rootNode);
+            else
+                this._readyCallback.call(gMainScene.getCurCCBController(), this.rootNode);
+        }
+    },
+
+    setAlmostTeamReadyCallback: function(callback, target) {
+        this._almostReadyCallback = callback;
+        this._almostReadyTarget = target;
+    },
+
+    onPeerTeamAlmostReady: function() {
+        if(NotNull(this._almostReadyCallback)) {
+            if(NotNull(this._almostReadyTarget))
+                this._almostReadyCallback.call(this._almostReadyTarget, this.rootNode);
+            else
+                this._almostReadyCallback.call(gMainScene.getCurCCBController(), this.rootNode);
+        }
+    },
+
+    enterBattleField: function() {
+        this.playAnimation('peer_team_on');
+        for(var i=1; i<conf.MAX_FIGHT_CARD_NUM; i++) {
+            var card = gBattleField.peerTeam.getCard(i);
+            if(IsNull(card)) {
+                this['enemy_helper'+i].controller.setEnabled(false);
+                this['enemy_helper'+i].controller.hide();
+            }
+            else {
+                this['enemy_helper'+i].controller.setEnabled(true);
+                this['enemy_helper'+i].controller.initWithCard(card);
+
+                //flip following enemy cards
+                this['enemy_helper'+i].controller.card_chr.setFlipX(true);
+                this['enemy_helper'+i].controller.card_chr.setFlipY(true);
+            }
+        }
+    }
+});

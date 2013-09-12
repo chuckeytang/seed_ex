@@ -19,6 +19,9 @@ cc.TargetTizen = 9;
 
 
 cc.noTouchLayer = cc.Layer.extend({
+    _touchCallback: null,
+    _touchTarget: null,
+    _enable: true,
     priority: 0,
     ctor: function () {
         this._super();
@@ -31,16 +34,32 @@ cc.noTouchLayer = cc.Layer.extend({
         return true;
     },
 
+    setTouchCallback: function(callback, target) {
+        this._touchCallback = callback;
+        this._touchTarget = target;
+    },
+
+    setEnabled: function(enable) {
+        this._enable = enable;
+    },
+
     onEnter: function () {
-        cc.registerTargettedDelegate(cc.MENU_HANDLER_PRIORITY + this.priority, true, this);
+        cc.Director.getInstance().getTouchDispatcher().addTargetedDelegate(this, this.priority, true);
     },
 
     onExit: function () {
-        cc.unregisterTouchDelegate(this);
+        cc.Director.getInstance().getTouchDispatcher().removeDelegate(this);
     },
 
-    onTouchBegan: function (touch, ev) {
-        cc.log("------------------");
+    onTouchBegan: function (touch) {
+        if(!this._enable) return false;
+
+        if(NotNull(this._touchCallback)) {
+            if(NotNull(this._touchTarget))
+                this._touchCallback.call(this._touchTarget, this.getParent());
+            else
+                this._touchCallback.call(gMainScene.getCurCCBController(), this.getParent());
+        }
         return true;
     }
 });
@@ -303,7 +322,7 @@ cc.Scene.prototype.no_touch_layer = null;
 cc.Scene.prototype.setNoTouchLayerEnabled = function (val, pri) {
     "use strict";
     if (IsNull(this.no_touch_layer)) {
-        this.no_touch_layer = cc.noTouchLayer.createByPriority(-1);
+        this.no_touch_layer = cc.noTouchLayer.createByPriority(UI.SCENE_NO_TOUCH_LAYER_PRI);
         //this.no_touch_layer = cc.LayerColor.create(cc.c4(28, 28, 28, 180), size.width, size.height);
         this.no_touch_layer.retain();
 
@@ -327,17 +346,24 @@ cc.Scene.prototype.addParticle = function (filename) {
     this.addChild(particle_obj);
 };
 
-cc.Scene.prototype.clearAllCCBLayer = function () {
-    "use strict";
-    this.removeAllChildren(false);
-    this._ui_stack = [];
-};
-
 cc.Scene.prototype.createWidget = function(filename) {
     "use strict";
     var layer = cc.BuilderReader.load(filename);
     layer.controller["ccb_name"] = filename;
     return layer;
+};
+
+cc.Scene.prototype.createDialog = function(filename) {
+    "use strict";
+    var layer = cc.BuilderReader.load(filename);
+    layer.controller["ccb_name"] = filename;
+    return layer;
+}
+
+cc.Scene.prototype.clearAllCCBLayer = function () {
+    "use strict";
+    this.removeAllChildren(false);
+    this._ui_stack = [];
 };
 
 cc.Scene.prototype.pushCCBLayer = function (ccblayer_or_name, callback, withIntro) {
@@ -539,4 +565,16 @@ cc.LabelBMFont.setDataBinding = function (update_freq, data_binding_callback, vi
         this.data_binding_update_freq = 1;
     this.data_binding_callback = data_binding_callback;
     this.visible_binding_callback = visible_binding_callback;
+};
+
+cc.MenuItemImage.prototype.setFlipX = function(flipX) {
+    this.getNormalImage().setFlipX(flipX);
+    this.getSelectedImage().setFlipX(flipX);
+    this.getDisabledImage().setFlipX(flipX);
+};
+
+cc.MenuItemImage.prototype.setFlipY = function(flipY) {
+    this.getNormalImage().setFlipY(flipY);
+    this.getSelectedImage().setFlipY(flipY);
+    this.getDisabledImage().setFlipY(flipY);
 };
