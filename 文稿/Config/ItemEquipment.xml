@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<!-- 被2012 () 使用XMLSpy v编辑的 (http://www.altova.com) by -->
+<File>
+	<Config>
+		<ARG Type="int" Size="4" Name="ID" Desc="ID"/>
+		<ARG Type="str" Size="4" Name="装备名" Desc="装备名"/>
+		<ARG Type="str" Size="4" Name="物品细节" Desc="物品细节"/>
+		<ARG Type="str" Size="4" Name="装备部位" Desc="装备部位"/>
+		<ARG Type="bool" Size="4" Name="需求等级" Desc="需求等级"/>
+		<ARG Type="int" Size="4" Name="后勤" Desc="后勤"/>
+		<ARG Type="int" Size="4" Name="军事" Desc="军事"/>
+		<ARG Type="int" Size="4" Name="学识" Desc="学识"/>
+		<ARG Type="int" Size="4" Name="攻击" Desc="攻击"/>
+		<ARG Type="int" Size="4" Name="防御" Desc="防御"/>
+		<ARG Type="int" Size="4" Name="统帅" Desc="统帅"/>
+	</Config>
+	<ALL>
+		<ELEMENT ID="1" 装备名="班长头盔" 物品细节="班长头盔" 装备部位="0" 需求等级="0" 后勤="4" 军事="4" 学识="4" 攻击="4" 防御="4" 统帅="4"/>
+		<ELEMENT ID="2" 装备名="班长头盔" 物品细节="班长头盔" 装备部位="0" 需求等级="0" 后勤="4" 军事="4" 学识="4" 攻击="4" 防御="4" 统帅="4"/>
+	</ALL>
+</File>

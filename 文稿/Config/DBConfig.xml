@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- 被2012 () 使用XMLSpy v编辑的 (http://www.altova.com) by -->
+<File>
+	<Config>
+		<ARG Type="int" Size="4" Name="ID" Desc="ID"/>
+		<ARG Type="str" Size="4" Name="连接字符串" Desc="连接字符串"/>
+		<ARG Type="str" Size="4" Name="账号" Desc="IP"/>
+		<ARG Type="str" Size="4" Name="密码" Desc="Port"/>
+		<ARG Type="int" Size="4" Name="超时" Desc="是否使用封包池"/>
+		<ARG Type="str" Size="4" Name="默认库" Desc="封包池大小"/>
+	</Config>
+	<ALL>
+		<ELEMENT ID="1" 连接字符串="tcp://127.0.0.1:3306" 账号="root" 密码="GameMysql12345" 超时="600" 默认库="war_game"/>
+	</ALL>
+</File>
