@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by chuckeytang (37int) -->
 <!-- 被2012 () 使用XMLSpy v编辑的 (http://www.altova.com) by -->
 <File>
 	<Config>
@@ -35,6 +35,9 @@
 		<ARG Type="int" Size="4" Name="防御耐久" Desc="防御耐久"/>
 		<ARG Type="int" Size="4" Name="伤兵率" Desc="伤兵率"/>
 		<ARG Type="int" Size="4" Name="修复率" Desc="修复率"/>
+		<ARG Type="int" Size="4" Name="弓系兵法熟练度" Desc="弓系兵法触发概率"/>
+		<ARG Type="int" Size="4" Name="枪系兵法熟练度" Desc="枪系兵法触发概率"/>
+		<ARG Type="int" Size="4" Name="骑系兵法熟练度" Desc="骑系兵法触发概率"/>
 	</Config>
 	<ALL>
 		<ELEMENT ID="1" 科技名="百草纲目1级" 科技描述="    《百草纲目》据传为神医安道全所著，收录了968种药草的图鉴，10008张药方，可惜至今已然大部分失传了。百草纲目1级提升药舍生产的伤药产量10%。" 科技描述详细="百草纲目1级提升伤药产量10%。" 等级="1" 图标路径="img_war\ui\icon_tech\big\Tech_01.png" 小图标路径="img_war\ui\icon_tech\small\Tech_01.png" 动画帧="Animation_KeJi_001.ccbi" 上一级="-1" 下一级="2" 升级需求="2001" 研究时间="900" 粮食产量="100" 钢铁产量="0" 石油产量="0" 稀土产量="0" 保护总量="0" 保护妨害="0" 侦查等级="0" 军队训练="0" 军队生命="0" 军队攻击力="0" 军队防御力="0" 军队射程="0" 军队速度="0" 飞行速度="0" 军队负重="0" 军队出兵量="0" 建筑建造="0" 防御耐久="0" 伤兵率="0" 修复率="0"/>

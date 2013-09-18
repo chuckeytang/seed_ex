@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by chuckeytang (37int) -->
 <!-- 被2012 () 使用XMLSpy v编辑的 (http://www.altova.com) by -->
 <File>
 	<Config>
@@ -22,8 +22,10 @@
 		<ARG Type="int" Size="4" Name="对地" Desc="对地"/>
 		<ARG Type="int" Size="4" Name="对海" Desc="对海"/>
 		<ARG Type="int" Size="4" Name="对防" Desc="对防"/>
-		<ARG Type="int" Size="4" Name="防御" Desc="防御"/>
+		<ARG Type="int" Size="4" Name="攻击" Desc="攻击力"/>
+		<ARG Type="int" Size="4" Name="防御" Desc="防御力"/>
 		<ARG Type="int" Size="4" Name="射程" Desc="射程"/>
+		<ARG Type="int" Size="4" Name="攻击速度" Desc="攻击速度"/>
 		<ARG Type="int" Size="4" Name="速度" Desc="速度"/>
 		<ARG Type="int" Size="4" Name="负重" Desc="负重"/>
 		<ARG Type="int" Size="4" Name="耗粮" Desc="耗粮"/>
@@ -31,7 +33,8 @@
 		<ARG Type="int" Size="4" Name="人口" Desc="人口"/>
 		<ARG Type="int" Size="4" Name="战线" Desc="士兵所占据的攻击线"/>
 		<ARG Type="str" Size="4" Name="战法" Desc="士兵拥有的战法"/>
-		<ARG Type="int" Size="4" Name="战法威力" Desc="士兵战法的威力"/>
+		<ARG Type="int" Size="4" Name="战法基础威力" Desc="士兵战法的基础威力"/>
+		<ARG Type="int" Size="4" Name="战法基础发动概率" Desc="战法基础发动概率"/>
 		<ARG Type="str" Size="4" Name="战法动画" Desc="士兵拥有的战法"/>
 	</Config>
 	<ALL>
