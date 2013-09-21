@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by chuckey (lezhuo) -->
 <!-- 被2012 () 使用XMLSpy v编辑的 (http://www.altova.com) by -->
 <File>
 	<Config>
@@ -16,6 +16,7 @@
 		<ARG Type="int" Size="4" Name="攻击" Desc="攻击"/>
 		<ARG Type="int" Size="4" Name="防御" Desc="防御"/>
 		<ARG Type="int" Size="4" Name="统帅" Desc="统帅"/>
+		<ARG Type="int" Size="4" Name="成长力" Desc="升级获得成长点数"/>
 	</Config>
 	<ALL>
 		<ELEMENT ID="1" 星位="宋江" 诨号="宋江" 姓名="宋江" 军官说明="　　人称“及时雨”。早先为山东郓城县押司，整日舞文弄墨，书写文书，是一刀笔小吏。晁盖等八个好汉智取生辰纲事发，被官府缉拿，幸好宋江事先告知，八人逃上梁山入伙。晁盖派刘唐送金子和书信给宋江，宋江的老婆阎婆惜发现宋江私通梁山，趁机要胁，宋江怒杀阎婆惜，逃往沧州。被迫上梁山。后宋江做了梁山泊首领。征大辽、田虎、王庆、方腊后，衣锦还乡，最后被奸臣高俅、杨戬毒死。" 近卫军说明="无" 头像="img_war\ui\icon_hero\big\aisenhaoweier_b_normal.png" 小头像="img_war\ui\icon_hero\small\aisenhaoweier_b_normal.png" 星级="5" 后勤="26" 军事="18" 学识="38" 统帅="19" 攻击="38" 防御="33"/>
